@@ -5,7 +5,6 @@ module.exports = function(grunt){
    'modernizr.min.js', 
    'tiny-pubsub.js', 
    'tmpl.js', 
-   'bootstrap.min.js', 
    'jquery.gestures.js',
    'animate.min.js', 
    'pages.js', 
@@ -15,6 +14,10 @@ module.exports = function(grunt){
   _defaults = _defaults.map(function(file){
     return 'js/lib/default/'+file;
   })
+  
+  //not in default dir
+  _defaults.push('bootstrap/js/bootstrap.min.js');
+  
 
   _sans = ['jquery.hotkeys.js', 'hotkeys.js'].map(function(file){ 
     return "js/lib/sans_touch/"+file; 
