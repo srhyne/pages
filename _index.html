@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+		<title>Pages UI</title>
+		<!-- styles -->
+    <!-- the pages folder has to be a sibling of your index page -->
+    <link rel="stylesheet" href="pages/bootstrap/css/bootstrap.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="pages/bootstrap/css/responsive.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="pages/pictos/pictos.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="pages/css/pages.css" type="text/css" media="screen" charset="utf-8">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			
+			<div class="navbar navbar-fixed-top" id="header">
+				<div class="navbar-inner">
+					<div class="container">
+            <a class="brand" href="#">Pages UI</a>
+            
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            
+            <div class="nav-collapse collapse">
+              <ul class="nav" id="nav">
+                
+                <li data-dir="people" class="hidden-desktop"> 
+                  <a href="#">
+        					  <span class='pictos'>\</span>                    
+                    Calendar
+                  </a>
+        				</li>
+
+        				<li data-dir="favs" class="hidden-desktop">
+        				  <a href="#">
+        					  <span class='pictos'>e</span>        				    
+        					  Hot News
+        				  </a>
+        				</li>
+
+        				<li data-dir="flagged" class="hidden-desktop">
+        				  <a href="#">
+        				    <span class="pictos">i</span>        				    
+                    Your Info
+        				  </a>
+        				</li>
+        				
+    						<!-- history -->
+    						<li class="dropdown">
+                  <a href="#" class="dropdown-toggle" id="history" data-toggle="dropdown">
+                    <span class='pictos'>|</span>
+                    Pages
+                  </a>
+                    <ul class="dropdown-menu" id="history-list"></ul>
+                </li>
+                
+                
+  						<!-- forward & back -->
+  						  <li class="visible-desktop">
+    							<a class="pictos" data-page="back">[</a>
+    						</li>
+    						
+    						<li class="visible-desktop">
+    							<a class="pictos" data-page="forward">]</a>
+    						</li>
+    						
+              </ul>  
+            </div>
+            <!-- end of nav collapse -->
+          </div>
+          <!-- end container -->
+				</div>
+        <!-- end navbar-inner -->
+			</div>
+      <!-- end nav bar -->
+			
+			
+			<div class="container-fluid">
+        <div class="row-fluid">
+          <div class="span2">
+            <ul id="menu" class="main-menu">
+      				<li data-dir="people" class="highlighted"> 
+      					<span class='pictos'>\</span>
+      					Calendar
+      				</li>
+
+      				<li data-dir="favs">
+      					<span class='pictos'>e</span>
+                Hot News
+      				</li>
+
+      				<li data-dir="flagged">
+      				  <span class="pictos">i</span>
+                Your Info
+      				</li>
+
+      				<li data-dir="inbox" style="display:none">
+      					<span class='pictos'>I</span>
+      					Inbox
+      				</li>
+      			</ul>
+          </div>
+          <div class="span10">
+            <div id="content">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+		</div>
+		
+		<!-- end of wrapper -->
+		
+    <script type="text/html"  id="weekday_tmpl">
+        <tr data-page="day">
+          <th>
+            <div class="pretty-date">
+              <span class="big-date"><%=day%></span>
+              <span class="small-date" data-pd1="May" data-pd2="<%=date%>"></span>
+            </div>
+          </th>
+          <td>5</td>
+          <td>3</td>
+          <td>2</td>
+          <td>456</td>
+          <td>34</td>
+        </tr>
+    </script>
+    
+    
+    <!-- templates -->
+    <script type="text/html"  id="weekdays_tmpl">
+    
+       <table class="table table-striped">
+         <thead>
+           <tr style="big-label">
+            <th>Date</th>
+            <th>Demo Goal</th>
+            <th>Demos</th>
+            <th>Sales</th>
+            <th>CPO</th>
+            <th>Recos</th>
+           </tr>
+         </thead>
+         <tbody>
+           <%=yield%>
+         </tbody>
+         <tfoot>
+           <tr class="table-bar">
+             <th colspan="1" class="big-label">
+               Week Totals
+             </th>
+             <th>1</th>
+             <th>22</th>
+             <th>10</th>
+             <th>1,243</th>
+             <th>34</th>
+           </tr>
+         </tfoot>
+       </table>
+       
+    </script>
+
+    <script type="text/html"  id="hours_tmpl">
+      <tr data-page="event" href="#" data-hours="<%=hours%>" data-minutes="00"> 
+        <td data-time="<%=hr%> <%=str%>"></td> 
+      </tr>
+      <tr data-page="event" data-hours="<%=hours%>" data-minutes="30" data-str="<%=str%>"> 
+        <td></td> 
+      </tr>
+    </script>
+    
+    <script type="text/html"  id="day_tmpl">
+      <div id="cal_day">
+        <table class="table">
+          <thead>
+            <tr class="table-bar">
+              <th>
+                <div class="pretty-date">
+                  <span class="big-date">Tues</span>
+                  <span class="small-date" data-pd1="May" data-pd2="7"></span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <%=yield%>
+          </tbody>
+        </table>
+      </div>
+    </script>
+		
+		<script type="text/html"  id="event_tmpl">
+		
+      <div class="" id="cal_event">
+        <h3 class="big-label">Add an Event</h3>
+        <form>
+          <fieldset>
+            
+           <div class="control-group">
+             <div class="time starts btn-group">
+               <strong>Starts</strong>
+               <select class="h time btn">
+                 <option>12</option>
+                 <option>1</option>
+                 <option>2</option>
+                 <option>3</option>
+                 <option>4</option>
+                 <option>5</option>
+                 <option>6</option>
+                 <option>7</option>
+                 <option>8</option>
+                 <option>9</option>
+                 <option>10</option>
+                 <option>11</option>
+               </select>
+           
+               <select class="mm time btn">
+                 <option>00</option>
+                 <option>15</option>
+                 <option>30</option>
+                 <option>45</option>
+               </select>
+             
+               <select class="A time btn">
+                 <option>AM</option>
+                 <option>PM</option>
+               </select>
+           
+             </div>
+           
+             <div class="time ends btn-group">
+               <strong>Ends</strong>
+             
+               <select class="h time btn">
+                 <option>12</option>
+                 <option>1</option>
+                 <option>2</option>
+                 <option>3</option>
+                 <option>4</option>
+                 <option>5</option>
+                 <option>6</option>
+                 <option>7</option>
+                 <option>8</option>
+                 <option>9</option>
+                 <option>10</option>
+                 <option>11</option>
+               </select>
+           
+               <select class="mm time btn">
+                 <option>00</option>
+                 <option>15</option>
+                 <option>30</option>
+                 <option>45</option>
+               </select>
+             
+               <select class="A time btn">
+                 <option>AM</option>
+                 <option>PM</option>
+               </select>
+             
+             </div>
+           </div>
+            
+            <div class="control-group">
+              <div class="btn-group">
+                <strong>Event Type</strong>
+                <button class="btn">Demo</button>
+                <button class="btn">Phone Time</button>
+                <button class="btn">Personal</button>
+              </div>
+            </div>
+            
+            <div class="control-group">
+             
+              <label class="" for="event-type">Demo Status</label>
+               <select name="type" class="btn input-xlarge">
+                  <option value="1">Possible</option>
+                  <option value="2">Scheduled</option>
+                  <option value="2">Canceled</option>
+                  <option value="3">Completed</option>
+                </select>
+            
+            </div>
+            
+        
+            <div class="control-group">
+              <label class="control-label" for="desc">Description</label>
+              <div class="controls">
+                <textarea class="input-xlarge" name="desc" rows="3"></textarea>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <div class="controls">
+                <div class="input-prepend">
+                  <span class="add-on">CPO</span>
+                  <input class="span2 disabled" size="16" type="text" name="cpo"/>
+                </div>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <div class="controls">
+                <div class="input-prepend">
+                  <span class="add-on">Recos</span>
+                  <input class="span2 disabled" size="16" type="text" name="recos"/>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button class="btn">Cancel</button>
+            </div>
+            
+          </fieldset>
+        </form>
+			</div>
+				
+		</script>
+
+    <!-- global scripts -->
+ 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ 		
+    <!-- pages -->
+    <script src="pages/js/min/default.min.js"></script>
+    
+		
+		<script>
+		
+		  $(function(){ 
+		    var s = document.createElement('script');
+        s.type = 'text/javascript'; s.async = true;
+        s.src = 'http://'+location.hostname+':35729/livereload.js?snipver=1';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+		  });
+      
+		</script>
+		
+	
+	</body>
+	
+</html>
