@@ -4,15 +4,10 @@
   dom = {};
   $ = GLOBAL.jQuery;
 
-  $.fn.log = function(){
-    console.log( this );
-    return this;
-  };
-  
-
   //cache selectors
   function cache(){
     dom.body = $("body");
+    dom.header = $("#header");
 		dom.wrapper = dom.body.find("#wrapper");
     dom.menu = dom.wrapper.find('#menu');
 		dom.content = dom.wrapper.find("#content");
@@ -21,22 +16,14 @@
 		dom.win = $(window);
   }
   
+  
   function pagesInit(){
-    var wWidth, menuWidth, opts;
-    
-    
-    wWidth = dom.win.width();
-    menuWidth = dom.menu.is(':visible') ? dom.menu.outerWidth() : 0;
-    
-    opts = { 
-      minWidth : 1 - (menuWidth/wWidth), 
-      topPos : $('#header').outerHeight(),
-      time : wWidth <= 320 ? 500 : 700
-      // time : 700
-    };
     
     //start pages
-		$.pages('init', opts);
+		$.pages('init', {
+		  time : dom.win.width() <= 320 ? 500 : 700
+		});
+		
 		//export do
     $.pages.dom = dom;
     $.publish('pages.init');
@@ -51,6 +38,9 @@
   
   function addEvents(){
     
+    dom.win.resize(function(){
+      $.pages('repaint');
+    })
     //ugly nav code
     $("#nav")
     .tap('a[data-page]',function(e){

@@ -17,47 +17,20 @@ div {
 .pictos {
   font-family: pictos;
 }
-/*boostrap overrides*/
-.container-fluid {
-  padding: 0;
-}
-.page {
-  background: white;
-  position: fixed;
-  border: none;
-  height: 100%;
-}
-.page div.page-content {
-  overflow-x: hidden;
-  height: 100%;
-}
-.page div.page-content > div.padded {
-  padding: 20px;
-}
-.page > .page {
+#wrapper {
   position: absolute;
-  top: 0px;
-  border-left: 1px solid grey;
-}
-.page > .page.sliding {
-  border-left: 1px solid grey !important;
-}
-.page > .page.closed {
-  border-left: none;
-  box-shadow: none;
-}
-.page table {
-  margin-bottom: 0px;
-}
-.page table  + table {
-  border-top: 1px dashed rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
 }
 #header {
   color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-  position: fixed;
   margin-left: 0px;
   margin-right: 0px;
+  position: fixed;
 }
 #header .container {
   width: 100%;
@@ -71,16 +44,25 @@ div {
   font-weight: bold;
   margin-left: 0px;
 }
-#menu {
-  position: fixed;
+/*boostrap overrides*/
+#content-container {
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  position: absolute;
+  bottom: 0px;
   top: 40px;
+  overflow: hidden;
+}
+#menu {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
   margin: 0;
   background: #7D8898;
   list-style: none;
   font-weight: bold;
   padding: 20px;
-  height: 100%;
-  min-height: 100%;
   box-shadow: inset -3px -3px 10px rgba(0, 0, 0, 0.5), inset 3px 3px 10px rgba(0, 0, 0, 0.5), 1px 0 1px rgba(255, 255, 255, 0.3);
 }
 #menu li {
@@ -109,6 +91,45 @@ div {
   color: #31CEF9;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
 }
+#content {
+  position: absolute;
+  top: 0px;
+  left: 95px;
+  right: 0px;
+  bottom: 0px;
+}
+.page {
+  background: white;
+  position: absolute;
+  top: 0px;
+  border: none;
+  height: 100%;
+  width: 50%;
+}
+.page div.page-content {
+  overflow-x: hidden;
+  height: 100%;
+}
+.page div.page-content > div.padded {
+  padding: 20px;
+}
+.page > .page {
+  border-left: 1px solid grey;
+  width: 100%;
+}
+.page > .page.sliding {
+  border-left: 1px solid grey !important;
+}
+.page > .page.closed {
+  border-left: none;
+  box-shadow: none;
+}
+.page table {
+  margin-bottom: 0px;
+}
+.page table  + table {
+  border-top: 1px dashed rgba(0, 0, 0, 0.5);
+}
 @media (min-width: 979px) {
   #header .nav {
     float: right;
@@ -119,11 +140,11 @@ div {
   #header .brand {
     display: none;
   }
+  .page {
+    width: 100%;
+  }
 }
 @media (max-width: 979px) {
-  #menu {
-    display: none;
-  }
   #nav li {
     font-size: 16px;
     line-height: 24px;
@@ -132,6 +153,15 @@ div {
   #nav li span.pictos {
     display: inline-block;
     min-width: 20px;
+  }
+  #content-container {
+    top: 50px;
+  }
+  #menu {
+    display: none;
+  }
+  #content {
+    left: 0px;
   }
 }
 html.no-touch [data-page]:hover td,

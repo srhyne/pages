@@ -22,65 +22,22 @@ div{
 	font-family:pictos;
 }
 
-/*boostrap overrides*/
-.container-fluid{
-  padding:0;
+#wrapper{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  overflow:hidden;
 }
-
-//page plugin css
-.page{
-  
-  background:white;
-	position : fixed;
-	border : none;	
-	height:100%;
-	
-  
-	div.page-content{
-	  overflow-x:hidden;
-    height:100%;
-    
-    > div.padded{
-      padding:20px;
-  	}
-  
-	}
-	
-  
-	> .page{
-	  position:absolute;	
-  	top:0px;
-  	border-left:1px solid grey;
-  	
-  	&.sliding{
-      border-left:1px solid grey !important;
-  	}
-  	
-  	&.closed{
-  	  border-left:none;
-       box-shadow:none;
-  	}
-	}
-	
-	table{
-	  margin-bottom:0px;
-	  & + table {
-	    border-top:1px dashed rgba(0, 0, 0, 0.5);
-	  }
-	}
-	
-	
-	
-}
-
 
 //top header
 #header{
   color:white;
   box-shadow : 0px 2px 5px rgba(0,0,0,.5);
-  position:fixed;
   margin-left:0px;
   margin-right:0px;
+  position:fixed;
   
   .container{
     width : 100%
@@ -100,17 +57,28 @@ div{
   
 }
 
+/*boostrap overrides*/
+#content-container{
+  padding:0;
+  margin:0;
+  min-width:100%;
+  position:absolute;
+  bottom:0px;
+  top:40px;
+  overflow:hidden;
+}
+
+
 //left side menu
 #menu{
-  position:fixed;
-	top:40px;
+  position:absolute;
+  top:0px;
+  bottom:0px;
 	margin:0;
   background:#7D8898;
 	list-style:none;
 	font-weight:bold;
 	padding:20px;
-	height:100%;
-	min-height:100%;
   box-shadow:
       inset -3px -3px 10px rgba(0,0,0,.5),
   		inset 3px 3px 10px rgba(0,0,0,.5),
@@ -152,6 +120,59 @@ div{
 		
 }//end of menu
 
+
+#content{
+  position:absolute;
+  top:0px;
+  left:95px;
+  right:0px;
+  bottom:0px;
+}
+
+//page plugin css
+.page{
+  background : white;
+	position : absolute;
+  top:0px;
+	border : none;	
+	height:100%;
+	width : 50%;
+
+  
+	div.page-content{
+	  overflow-x:hidden;
+    height:100%;
+    
+    > div.padded{
+      padding:20px;
+  	}
+  
+	}
+	
+  
+	> .page{
+  	border-left:1px solid grey;
+  	width:100%;
+  	
+  	&.sliding{
+      border-left:1px solid grey !important;
+  	}
+  	
+  	&.closed{
+  	  border-left:none;
+       box-shadow:none;
+  	}
+	}
+	
+	table{
+	  margin-bottom:0px;
+	  & + table {
+	    border-top:1px dashed rgba(0, 0, 0, 0.5);
+	  }
+	}
+		
+}
+
 //responsive 
 @media (min-width : 979px){
   #header .nav{
@@ -162,18 +183,19 @@ div{
 
 
 @media (max-width: 767px) {
+  
  #header .brand{
    display:none;
  }
+ 
+ .page{
+   width : 100%;
+ }
+ 
 }
 
 @media (max-width: 979px) {
-  
-  #menu{
-     display:none;
-   }
-   
-   #nav{
+  #nav{
      
      li{
        font-size:16px;
@@ -188,6 +210,20 @@ div{
      } //end li
      
    }//end nav
+   
+  #content-container{
+    top:50px;
+  }
+  
+  #menu{
+     display:none;
+   }
+   
+   #content{
+     left:0px;
+   }
+   
+   
   
 }
 

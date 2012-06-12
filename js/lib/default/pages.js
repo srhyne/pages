@@ -4,29 +4,26 @@
 	var _opts, _window, _content, selector, currentPage,
 	
 		//private methods
-    _collapse, _fb, _open, _pushHistory, _popHistory,
+    _collapse, _fb, _open, _pushHistory, _popHistory, _all, _isSinglePage,
 		
 		//exported methods
-		expand, find, init, add, drop, back, forward,
+		expand, find, init, repaint, add, drop, back, forward,
 		
 		//public methods object
 		methods, 
 		
 		//plugin namespace
-		ns = 'pages',
+		ns = 'pages';
 		
 		//options
 	_opts = {
 		cls : "page", 
-		minWidth : 1,
-		topPos : 40,
-		pageSpacing : 0.5, 
-    twoPageMinWidth : 767, //change to 768 to go 1 page on ipad in portrait
 		//animate 
 		css3 : {
 			leaveTransforms : true,
 			useTranslate3d : true	
 		},
+    twoPageMinWidth : 767, //change to 768 to go 1 page on ipad in portrait
 		time :  1000	
 	};
 	
@@ -55,30 +52,26 @@
 	
 	
 	_fb = function(dir, cb){
-		var _pages = _content.find(selector), 
+		var _pages = _all(),
 			method = dir === 'back' ? "parents" : "children"; 
 			toOpen = _pages.filter("."+ns+"-0, .closed").last()[method](selector).eq(0); 	
 		return open(toOpen, cb);
 	};
 	
 	_open2 = function(){
-		var _this, _pages, o;
+		var _this, _pages;
+		
 		_this = _open2._this;
+	
 		//don't use children here. We want all not the last one
 		_pages = _this.find(selector);
-						
+    
 		if(!_pages[0]){
 			return false;
 		}
 		
-		o = _pages.last().data()[ns].offset;
-		
-		_open2._this = null;
-		return _pages
-				.removeClass('closed')
-				//TODO firefox support needed
-				.css("-webkit-transform", "translate3d("+o+"px, 0px, 0px)");
-	
+		_open2._this = null;					
+		return _pages.removeClass('closed').updateX();
 	};
 	
 	_open = function(){
@@ -92,23 +85,27 @@
     history.pushState({ name : name }, name);
 	};
 	
+  _all = function(){
+    return _content.find(selector);
+  };
+  
+  _isSinglePage = function(){
+    return (_window.width() <= _opts.twoPageMinWidth ? true : false);    
+  };
+  
 	//----------------------------------------------private methods exported----------------------------//
 
 	//check for animate
 	//TODO check for double init
 	init = function(customOpts, callback){
-		//holds namspaced events
-		var pageEvents = {};
-		
 		//set closure vars (See TOP);
-		_window = $(window), 
+		_window = $(window);
 		selector = "div."+_opts.cls;
 		
 		//TODO I don't think you need to re-assign that here. 
-		_opts = $.extend(_opts, typeof customOpts === 'object' ? customOpts : {}, true);	
+		_opts = $.extend(_opts, customOpts || {}, true);	
 		// add opts data to scope
 	
-		
 	  Modernizr.load([
       {
         test : Modernizr.touch, 
@@ -117,41 +114,45 @@
 	    }
 	  ]);
 	  
-	
 	  Modernizr.touch && _content.swipe(selector);
-	
-	
-		//TODO remove this
-		_window.bind("hashchange", function(){
-			var hash = this.location.hash, 
-				method = hash.split(":")[1];
-			if(method && methods.hasOwnProperty(method)){
-				$[ns](method);						
-			}	
-			this.location.hash = "";
-		});
-			
+		
 		return $[ns];
 	};
+	
+	
+  //repaint the animation offsets of the panels..
+	repaint = function(){
+    var pages;
+    
+	  pages = _all();
+	  
+	  if(pages.length === 0){
+	    return false;
+	  }
+	  
+    pages.slice(1).filter(':not(.closed)').updateX();
+    
+    if( !_isSinglePage() ){
+      return false;
+    }
+    
+    _open.call( pages.last() );
+
+	};
+	
 	
 	//@param el $ object or html that's being i	nserted into the new page
 	// this in callback refers to the el being added NOT .page (TODO change this?)
 	add = function(el, name, callback){
-		var _el, w, pages, pageCount, lastPage, 
-		    container, wHeight, wWidth, singlePage, 
-		    offset, _anim, pageContent, _page;
+		var _el, w, pages, pageCount, lastPage,
+		    container, singlePage, offset, _anim, 
+		    pageContent, _page;
 		
 		//make a jquery collection even if it is already
-		_el = $(el);
-		
-		//window for calcs
-		w = _window,
-		 
+		_el = $(el); 
 		//get all pages
-		pages = _content.find(selector);
-		
+		pages = _all(); 
 		pageCount = pages.size();
-		
 		//close pages before adding
 		if(pageCount !== 0){
 			_collapse(pages);
@@ -159,28 +160,20 @@
 		
 		//get last div.page if their is one
 		lastPage = pages.last();
-		
 		//if there is a current div.page this will be our container NOT our scope this object
 		container = lastPage[0] ? lastPage : this;
 		
-		//get get height of container
-		wHeight = w.height();
-		
 		//get width of container //cache this?
-		wWidth = w.width();
-    singlePage = wWidth <= _opts.twoPageMinWidth ? true : false;
-
-		
-		offset = pageCount === 0 
-					? wWidth - (wWidth * _opts.minWidth) 
-					: wWidth * _opts.minWidth * (_opts.pageSpacing);
+		singlePage = _isSinglePage();
+		offset = pageCount === 0 || singlePage ? 0 : lastPage.width();
 										
-		offset = Math.round(offset);
-		
+		// offset = Math.round(offset);
 		
 		_anim = {
-			left : offset + "px"
+			left : offset
 		};
+		
+		//testing
 		
 		_anim = $.extend({}, _opts.css3, _anim);
 		
@@ -196,19 +189,13 @@
 		})
 		.data({
 			pages : { 
-				offset : singlePage ? wWidth : offset,  
+				offset : singlePage ? 0 : offset,  
 				name : name ? name : ns+"_"+pageCount
 			} 	
 		})
-		.css({
-			width : wWidth * _opts.minWidth * _opts.pageSpacing,
-			right : 0, 
+		.slide(this.width(), {
+		  right : 0, 
 			left : 0,
-			"-webkit-transform" : "translate3d("+wWidth+"px,0,0)",
-			//TODO get rid of this have just one
-			"-moz-transform" : "translate("+wWidth+"px,0)",
-      height : wHeight - _opts.topPos,
-      top : pageCount === 0 ? _opts.topPos : 0,
 			"z-index" : 2
 		})
 		.appendTo(container)
@@ -223,7 +210,8 @@
 		
 		_pushHistory.call(_page);
     
-		return singlePage ? $[ns]('expand', ':last') : $[ns];
+    //this could faster instead of using selector..
+		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	};
 	
 	
@@ -235,7 +223,7 @@
 			console.log('no element or selector passed for selection');
 			return $[ns];
 		}
-		_pages = _content.find(selector);
+		_pages = _all();
 		_page = typeof s === 'number' 
 				? _pages.eq(s) 
 					: s instanceof jQuery ? s : _pages.filter(s);
@@ -258,15 +246,6 @@
 		return find(s, _open);
 	};
 	
-	expand = function(s){
-		return find(s, function(){
-			this.css({
-				width : _window.width() * _opts.minWidth
-			});
-			_open.call(this);
-		})
-	};
-	
 	back = function(cb){
 		return _fb('back', cb);
 	};
@@ -277,7 +256,7 @@
 	
 	names = function(cb){
 		var _names = [];
-		_content.find(selector).each(function(i){
+    _all().each(function(i){
 			var data = $(this).data(ns) || {};
 			_names.push(data.name || ns + " " + i);
 		});
@@ -286,6 +265,7 @@
 			
 	methods = {
 		init : init, 
+		repaint : repaint,
 		add : add, 
 		drop : drop, 
 		find : find, 
@@ -307,6 +287,33 @@
     console.log(this);
     return this;
   };
+	
+	//apply a x transform..
+	$.fn.slide = function(x, css){
+	  var styles;
+	  
+    styles = $.extend({
+      "-webkit-transform" : "translate3d("+x+"px,0,0)",
+			"-moz-transform" : "translate("+x+"px,0)",
+    }, css || {})
+    
+	  return this.css(styles);
+	}
+	
+	//reposition x tranform based on parent
+  $.fn.updateX = function(){
+    
+    this.each(function(){
+      var _this, pWidth;
+      _this = $(this);
+      pWidth = _this.parents(selector).eq(0).width();
+      _this.slide(pWidth);
+    });
+    
+    return this;
+  }
+	
+  
 	
 	$[ns] = function( method ) {
 		_content = _content === undefined ? $('#content') : _content;

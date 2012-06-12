@@ -4,13 +4,13 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-		<title>Pages UI</title>
+		<title>Pages Sample</title>
 		<!-- styles -->
-    <!-- the pages folder has to be a sibling of your index page -->
     <link rel="stylesheet" href="pages/bootstrap/css/bootstrap.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="pages/bootstrap/css/responsive.css" type="text/css" media="screen" charset="utf-8">
 		<link rel="stylesheet" href="pages/pictos/pictos.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="pages/css/pages.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="css/rep.css" type="text/css" media="screen">
 	</head>
 	
 	<body>
@@ -81,52 +81,45 @@
       <!-- end nav bar -->
 			
 			
-			<div class="container-fluid">
-        <div class="row-fluid">
-          <div class="span2">
-            <ul id="menu" class="main-menu">
-      				<li data-dir="people" class="highlighted"> 
-      					<span class='pictos'>\</span>
-      					Calendar
-      				</li>
+			<div id="content-container">
+        
+        <ul id="menu" class="main-menu">
+  				<li data-dir="people" class="highlighted"> 
+  					<span class='pictos'>\</span>
+  					Calendar
+  				</li>
 
-      				<li data-dir="favs">
-      					<span class='pictos'>e</span>
-                Hot News
-      				</li>
+  				<li data-dir="favs">
+  					<span class='pictos'>e</span>
+            Hot News
+  				</li>
 
-      				<li data-dir="flagged">
-      				  <span class="pictos">i</span>
-                Your Info
-      				</li>
+  				<li data-dir="flagged">
+  				  <span class="pictos">i</span>
+            Your Info
+  				</li>
 
-      				<li data-dir="inbox" style="display:none">
-      					<span class='pictos'>I</span>
-      					Inbox
-      				</li>
-      			</ul>
-          </div>
-          <div class="span10">
-            <div id="content">
-              
-            </div>
-          </div>
-        </div>
+  				<li data-dir="inbox" style="display:none">
+  					<span class='pictos'>I</span>
+  					Inbox
+  				</li>
+  			</ul>
+  			
+        <div id="content"></div>
+        
       </div>
       
       
 		</div>
+    <!-- end of wrapper -->
 		
-		<!-- end of wrapper -->
-		
-		
+
     <!-- global scripts -->
  		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
- 		
-    <!-- pages -->
-    <script src="pages/js/min/default.min.js"></script>
-  
 	
+    <!-- pages -->
+    <script src="pages/js/min/default.min.js?v=2"></script>
+    
 	</body>
 	
 </html>
