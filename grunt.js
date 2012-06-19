@@ -42,6 +42,11 @@ module.exports = function(grunt){
      _touches : {
        src : ['js/lib/touch/iscroll.js'], 
        dest : 'js/min/touch.min.js'
+     }, 
+     
+     uglify : {
+       mangle : {}, 
+       squeeze : {}
      }
      
    }
