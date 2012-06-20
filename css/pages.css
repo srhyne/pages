@@ -105,6 +105,9 @@ div {
   border: none;
   height: 100%;
   width: 50%;
+  /*  -webkit-perspective: 1000;*/
+
+  -webkit-backface-visibility: hidden;
 }
 .page div.page-content {
   overflow-x: hidden;

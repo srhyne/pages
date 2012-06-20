@@ -199,13 +199,9 @@
 			"z-index" : 2
 		})
 		.appendTo(container)
-		.animate(_anim, _opts.time, "easeOutCirc", function(){
-		  
-		  Modernizr.touch && iScroll && new iScroll(pageContent[0],{
-		    vScrollbar : false
-		  });
-		  
-			return typeof callback === 'function' && callback.call(_el);
+		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
+      Modernizr.touch && iScroll && new iScroll(pageContent[0],{ vScrollbar : false });
+      return typeof callback === 'function' && callback.call(_el);
 		});
 		
 		_pushHistory.call(_page);
