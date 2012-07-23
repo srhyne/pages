@@ -1,3 +1,5 @@
+@import 'mixins.less';
+
 /*pages plugin css*/
 html, body{
   padding:0!important;
@@ -145,9 +147,10 @@ div{
     height:100%;
     
     > div.padded{
-      padding:20px;
+      padding : 20px;
+      //this was changed from using padding : 20px
   	}
-  
+  	
 	}
 	
   
@@ -171,7 +174,16 @@ div{
 	    border-top:1px dashed rgba(0, 0, 0, 0.5);
 	  }
 	}
-		
+	
+	.tab-content.scroller{
+    position:absolute;
+    //TODO this is hard coded. lame..
+    top : 60px;
+    bottom:0px;
+    left : 20px;
+    right : 0px;
+	}
+			
 }
 
 //responsive 
@@ -245,7 +257,7 @@ html.no-touch{
    
    div.page{
      
-     > div.page-content{
+     > div.page-content, .scroller{
        &::-webkit-scrollbar{
         	width: 8px;
         	height:100%;

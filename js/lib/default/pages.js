@@ -110,11 +110,13 @@
       {
         test : Modernizr.touch, 
         nope : ['pages/js/min/sans_touch.min.js'], 
-        yep :['pages/js/min/touch.min.js']
+        yep : ['pages/js/min/touch.min.js']
 	    }
 	  ]);
 	  
-	  Modernizr.touch && _content.swipe(selector);
+	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
+	  //to desktop.
+    Modernizr.touch && _content.swipe(selector);
 		
 		return $[ns];
 	};
@@ -200,7 +202,23 @@
 		})
 		.appendTo(container)
 		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
-      Modernizr.touch && iScroll && new iScroll(pageContent[0],{ vScrollbar : false });
+		  var scrollers;
+		  
+		  if(iScroll){
+        scrollers = _el.find('.scroller');
+        //if there other scrollers use that not the whole page..
+        if(scrollers[0]){
+          scrollers.each(function(){
+            //TODO add a way to pass in iscroll data from the template
+            // i.e. data-scrollers-vScrollbar or something..  
+            new iScroll(this,{ vScrollbar : false });
+          });
+        }
+        else{
+          new iScroll(pageContent[0],{ vScrollbar : false });
+        }
+		  }//enf of if iScroll
+      
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
