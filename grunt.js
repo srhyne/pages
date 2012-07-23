@@ -27,6 +27,13 @@ module.exports = function(grunt){
   
  
  grunt.initConfig({
+   concat : {
+     _default : {
+       src : _defaults, 
+       dest : 'js/test/default.js'
+     }
+   }, 
+   
    min : {
      
      _default : {
@@ -52,7 +59,7 @@ module.exports = function(grunt){
    }
  });
  
- grunt.registerTask('default', 'min:_default min:_sans min:_touches');
+ grunt.registerTask('default', 'min:_default min:_sans min:_touches concat:_default');
  
  		
  		
