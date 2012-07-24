@@ -204,14 +204,14 @@
 		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
 		  var scrollers;
 		  
-		  if(iScroll){
+		  if(typeof iScroll !== 'undefined'){
         scrollers = _el.find('.scroller');
         //if there other scrollers use that not the whole page..
         if(scrollers[0]){
           scrollers.each(function(){
             //TODO add a way to pass in iscroll data from the template
-            // i.e. data-scrollers-vScrollbar or something..  
-            new iScroll(this,{ vScrollbar : false });
+            // i.e. data-scrollers-vScrollbar or something.. 
+            iScroll['_'+this.id] = new iScroll(this,{ vScrollbar : false });
           });
         }
         else{
