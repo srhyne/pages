@@ -2,6 +2,7 @@
   
   var $ = GLOBAL.jQuery;
   
+  
   $.fn.swipe = function(selector, cb){ 
     var _selector, _page, offset, start, move, end;
      

@@ -157,6 +157,7 @@
   
   var $ = GLOBAL.jQuery;
   
+  
   $.fn.swipe = function(selector, cb){ 
     var _selector, _page, offset, start, move, end;
      
@@ -384,6 +385,8 @@ http://www.opensource.org/licenses/mit-license.php
 	//check for animate
 	//TODO check for double init
 	init = function(customOpts, callback){
+		var og = window.location.origin + '/';
+
 		//set closure vars (See TOP);
 		_window = $(window);
 		selector = "div."+_opts.cls;
@@ -392,11 +395,13 @@ http://www.opensource.org/licenses/mit-license.php
 		_opts = $.extend(_opts, customOpts || {}, true);	
 		// add opts data to scope
 	
+		//testing this
+		
 	  Modernizr.load([
       {
         test : Modernizr.touch, 
-        nope : ['pages/js/min/sans_touch.min.js'], 
-        yep : ['pages/js/min/touch.min.js']
+        nope : [og + 'pages/js/min/sans_touch.min.js'], 
+        yep : [og + 'pages/js/min/touch.min.js']
 	    }
 	  ]);
 	  
