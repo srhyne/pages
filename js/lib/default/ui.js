@@ -63,11 +63,14 @@
   	});
       
     dom.menu
-      .delegate("li", "click",function(e){
-        var _this = $(this), dir, _sibs;
-  				dir = _this.data('dir');
-  				_sibs = _this.siblings().removeClass('highlighted').end().addClass('highlighted');
-  				e.stopPropagation();
+      .tap('li', function(e){
+        var _this = $(this), dir;
+        dir = _this.data('dir');
+        
+        //route base on the dir from the li
+        $.publish('pages.route', [{ route : dir }]);
+        // _sibs = 
+        e.stopPropagation();
       });
       
     dom.content
