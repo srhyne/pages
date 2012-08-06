@@ -698,15 +698,19 @@ http://www.opensource.org/licenses/mit-license.php
   		e.stopPropagation();
   	});
       
-    dom.menu
-      .tap('li', function(e){
+    dom
+      .wrapper.find('ul.main-menu')
+      .tap('li a', function(e){
         var _this = $(this), dir;
-        dir = _this.data('dir');
+        dir = _this.parent().data('dir');
         
         //route base on the dir from the li
         $.publish('pages.route', [{ route : dir }]);
         // _sibs = 
         e.stopPropagation();
+        e.preventDefault();
+
+
       });
       
     dom.content
