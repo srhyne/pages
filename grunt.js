@@ -9,7 +9,8 @@ module.exports = function(grunt){
    'jquery.gestures.js',
    'animate.min.js', 
    'pages.js', 
-   'ui.js'
+   'ui.js', 
+   'iscroll.js'
   ];
   
   _defaults = _defaults.map(function(file){
@@ -46,11 +47,6 @@ module.exports = function(grunt){
        dest : 'js/min/sans_touch.min.js'
      }, 
      
-     _touches : {
-       src : ['js/lib/touch/iscroll.js'], 
-       dest : 'js/min/touch.min.js'
-     }, 
-     
      uglify : {
        mangle : {}, 
        squeeze : {}
@@ -59,7 +55,7 @@ module.exports = function(grunt){
    }
  });
  
- grunt.registerTask('default', 'min:_default min:_sans min:_touches concat:_default');
+ grunt.registerTask('default', 'min:_default min:_sans concat:_default');
  
  		
  		

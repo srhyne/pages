@@ -107,9 +107,10 @@
 		
 	  Modernizr.load([
       {
-        test : Modernizr.touch, 
-        nope : [og + 'pages/js/min/sans_touch.min.js'], 
-        yep : [og + 'pages/js/min/touch.min.js']
+      	//load them regardless
+        test : Modernizr.touch,
+        //sans touch is prety much JUST hotkeys
+        nope : [og + 'pages/js/min/sans_touch.min.js']
 	    }
 	  ]);
 	  
