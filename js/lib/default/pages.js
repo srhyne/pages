@@ -4,7 +4,7 @@
 	var _opts, _window, _content, selector, currentPage,
 	
 		//private methods
-    _collapse, _fb, _open, _pushHistory, _popHistory, _all, _isSinglePage,
+    _collapse, _fb, _open, _all, _isSinglePage,
 		
 		//exported methods
 		expand, find, init, repaint, add, drop, back, forward,
@@ -78,11 +78,6 @@
 		var toClose = this.parents(selector).andSelf();
 		_open2._this = this;
 		_collapse(toClose, _opts.time,  _open2); 
-	};
-	
-	_pushHistory = function(){
-    var name = (this.data(ns) || {}).name || "First Page";
-    history.pushState({ name : name }, name);
 	};
 	
   _all = function(){
@@ -226,7 +221,6 @@
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-		_pushHistory.call(_page);
     
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
@@ -341,9 +335,5 @@
 		return $.error( 'Method ' +  method + ' does not exist on jQuery.' + ns );
 	};
 	
-	window.addEventListener('popstate',function(e){
-    var name = (e.state || {}).name || false;
-    name && open(":"+ns+"('"+name+"')");
-	})
-
+	
 }(window.jQuery);

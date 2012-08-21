@@ -62,10 +62,13 @@
   		e.stopPropagation();
   	});
       
+     //this could be change to just data-route 
+    //and that could be the selector 
     dom
       .wrapper.find('ul.main-menu')
       .tap('li a', function(e){
         var _this = $(this), dir;
+        //should just use data-route on everything..
         dir = _this.parent().data('dir');
         
         //route base on the dir from the li
@@ -76,7 +79,10 @@
 
 
       });
-      
+     
+     //TODO this should really be removed or it should
+     //use pages.route not pages.new, this is legacy
+     //for rep entry project 
     dom.content
     .tap('tr[data-page]',function(e){
       var _this, data;

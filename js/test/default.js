@@ -291,7 +291,7 @@ http://www.opensource.org/licenses/mit-license.php
 	var _opts, _window, _content, selector, currentPage,
 	
 		//private methods
-    _collapse, _fb, _open, _pushHistory, _popHistory, _all, _isSinglePage,
+    _collapse, _fb, _open, _all, _isSinglePage,
 		
 		//exported methods
 		expand, find, init, repaint, add, drop, back, forward,
@@ -365,11 +365,6 @@ http://www.opensource.org/licenses/mit-license.php
 		var toClose = this.parents(selector).andSelf();
 		_open2._this = this;
 		_collapse(toClose, _opts.time,  _open2); 
-	};
-	
-	_pushHistory = function(){
-    var name = (this.data(ns) || {}).name || "First Page";
-    history.pushState({ name : name }, name);
 	};
 	
   _all = function(){
@@ -513,7 +508,6 @@ http://www.opensource.org/licenses/mit-license.php
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-		_pushHistory.call(_page);
     
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
@@ -628,11 +622,7 @@ http://www.opensource.org/licenses/mit-license.php
 		return $.error( 'Method ' +  method + ' does not exist on jQuery.' + ns );
 	};
 	
-	window.addEventListener('popstate',function(e){
-    var name = (e.state || {}).name || false;
-    name && open(":"+ns+"('"+name+"')");
-	})
-
+	
 }(window.jQuery);
 !function(GLOBAL){
   var dom, $;
@@ -698,10 +688,13 @@ http://www.opensource.org/licenses/mit-license.php
   		e.stopPropagation();
   	});
       
+     //this could be change to just data-route 
+    //and that could be the selector 
     dom
       .wrapper.find('ul.main-menu')
       .tap('li a', function(e){
         var _this = $(this), dir;
+        //should just use data-route on everything..
         dir = _this.parent().data('dir');
         
         //route base on the dir from the li
@@ -712,7 +705,10 @@ http://www.opensource.org/licenses/mit-license.php
 
 
       });
-      
+     
+     //TODO this should really be removed or it should
+     //use pages.route not pages.new, this is legacy
+     //for rep entry project 
     dom.content
     .tap('tr[data-page]',function(e){
       var _this, data;
