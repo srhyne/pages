@@ -502,7 +502,7 @@ http://www.opensource.org/licenses/mit-license.php
           });
         }
         else{
-          new iScroll(pageContent[0],{ vScrollbar : false });
+        	iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
         }
 		  }//enf of if iScroll
       
