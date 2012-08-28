@@ -627,6 +627,8 @@ iScroll.prototype = {
 			deltaX, deltaY,
 			deltaScale;
 
+		e.preventDefault();
+		
 		if ('wheelDeltaX' in e) {
 			wheelDeltaX = e.wheelDeltaX / 12;
 			wheelDeltaY = e.wheelDeltaY / 12;

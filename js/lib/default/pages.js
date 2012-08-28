@@ -217,7 +217,7 @@
         else{
         	iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
         }
-		  }//enf of if iScroll
+		  }//enf of if 
       
       return typeof callback === 'function' && callback.call(_el);
 		});

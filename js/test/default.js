@@ -504,7 +504,7 @@ http://www.opensource.org/licenses/mit-license.php
         else{
         	iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
         }
-		  }//enf of if iScroll
+		  }//enf of if 
       
       return typeof callback === 'function' && callback.call(_el);
 		});
@@ -668,30 +668,15 @@ http://www.opensource.org/licenses/mit-license.php
     dom.win.resize(function(){
       $.pages('repaint');
     })
-    //ugly nav code
-    $("#nav")
-    .tap('a[data-page]',function(e){
-      var dir = $(this).data('page');
-      window.history[dir]();
-    });
-        
+
     dom.history.click(function(){
   		var html = "";
   		$.pages('names').forEach(function(name){
-  			html += "<li><a href='#' data-page='"+name+"'>"+name+"</a></li>";
+  			html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
   		});
       dom.historyList.html(html);
   	});
 
-    dom.historyList.delegate("a", "click", function(e){
-  		var page = $(this).data('page');
-  		$.pages('open', ":pages("+page+")");
-  		e.stopPropagation();
-  	});
-      
-    
-    
-    
   }
   
 
@@ -1327,6 +1312,8 @@ iScroll.prototype = {
 			deltaX, deltaY,
 			deltaScale;
 
+		e.preventDefault();
+		
 		if ('wheelDeltaX' in e) {
 			wheelDeltaX = e.wheelDeltaX / 12;
 			wheelDeltaY = e.wheelDeltaY / 12;
