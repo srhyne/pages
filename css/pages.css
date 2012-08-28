@@ -163,6 +163,9 @@ div {
   #menu {
     display: none;
   }
+  #menu.open {
+    display: block;
+  }
   #content {
     left: 0px;
   }
