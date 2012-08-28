@@ -145,11 +145,13 @@
 	
 	//@param el $ object or html that's being i	nserted into the new page
 	// this in callback refers to the el being added NOT .page (TODO change this?)
-	add = function(el, name, callback){
+	add = function(el, name, callback, extraClasses){
 		var _el, w, pages, pageCount, lastPage,
 		    container, singlePage, offset, _anim, 
 		    pageContent, _page;
 		
+		extraClasses = extraClasses || '';
+
 		//make a jquery collection even if it is already
 		_el = $(el); 
 		//get all pages
@@ -186,8 +188,8 @@
 		  
     _page = $("<div/>",{
       id : ns+"-"+pageCount,
-			'class' : _opts.cls +" "+ ns+"-"+pageCount, //dont take off index class!
-			html : pageContent, 
+			'class' : _opts.cls +" "+ ns+"-"+pageCount+' '+extraClasses, //dont take off index class!
+			html : pageContent
 		})
 		.data({
 			pages : { 

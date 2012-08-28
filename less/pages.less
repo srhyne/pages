@@ -150,8 +150,11 @@ div{
       //this was changed from using padding : 20px
   	}
   	
-	}
-	
+	}//end of page content
+
+  &.expanded{
+    width : 100%;
+  }
   
 	> .page{
   	border-left:1px solid grey;
@@ -187,7 +190,7 @@ div{
 
 //responsive 
 @media (min-width : 979px){
-
+  
 }
 
 
@@ -214,8 +217,21 @@ div{
   }
   
   #menu{
-     display:none;
+    display:none;
+    padding:10px 20px;
+    // width:80%;
+
+     li{
+      text-align: left;
+      font-size:18px;
+      span.pictos{
+        width:30px;
+        display:inline-block;
+      }
+     }
+
    }
+
    #menu.open{
     display:block;
    }

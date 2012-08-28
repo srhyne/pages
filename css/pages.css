@@ -118,6 +118,9 @@ div {
 .page div.page-content > div.padded {
   padding: 20px;
 }
+.page.expanded {
+  width: 100%;
+}
 .page > .page {
   border-left: 1px solid grey;
   width: 100%;
@@ -162,6 +165,15 @@ div {
   }
   #menu {
     display: none;
+    padding: 10px 20px;
+  }
+  #menu li {
+    text-align: left;
+    font-size: 18px;
+  }
+  #menu li span.pictos {
+    width: 30px;
+    display: inline-block;
   }
   #menu.open {
     display: block;
