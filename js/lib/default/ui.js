@@ -10,6 +10,7 @@
     dom.header = $("#header");
 		dom.wrapper = dom.body.find("#wrapper");
     dom.menu = dom.wrapper.find('#menu');
+    dom.container = dom.wrapper.find('#content-container');
 		dom.content = dom.wrapper.find("#content");
 		dom.history = dom.body.find('#history');
     dom.historyList = dom.history.next('#history-list');
