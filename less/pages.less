@@ -190,7 +190,9 @@ div{
 
 //responsive 
 @media (min-width : 979px){
-  
+  #menu{
+    min-width : 95px;  
+  }
 }
 
 
@@ -218,12 +220,16 @@ div{
   
   #menu{
     display:none;
-    padding:10px 20px;
+    padding:10px 0px;
     // width:80%;
 
      li{
+      padding:10px 20px;
       text-align: left;
       font-size:18px;
+      &:first-child{
+        padding-top:0px;
+      }
       span.pictos{
         width:30px;
         display:inline-block;
