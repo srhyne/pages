@@ -7,7 +7,7 @@
     _collapse, _fb, _open, _all, _isSinglePage,
 		
 		//exported methods
-		expand, find, init, repaint, add, drop, back, forward,
+		expand, find, init, repaint, add, drop, back, forward, names, has,
 		
 		//public methods object
 		methods, 
@@ -277,6 +277,10 @@
 		});
 		return _names;
 	};
+
+	has = function(name){
+		return names().indexOf(name) !== -1;
+	};
 			
 	methods = {
 		init : init, 
@@ -288,7 +292,8 @@
 		expand : expand,
 		back : back, 
 		forward : forward, 
-		names : names
+		names : names, 
+		has : has
 	};
 	
 	

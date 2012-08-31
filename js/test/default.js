@@ -294,7 +294,7 @@ http://www.opensource.org/licenses/mit-license.php
     _collapse, _fb, _open, _all, _isSinglePage,
 		
 		//exported methods
-		expand, find, init, repaint, add, drop, back, forward,
+		expand, find, init, repaint, add, drop, back, forward, names, has,
 		
 		//public methods object
 		methods, 
@@ -564,6 +564,10 @@ http://www.opensource.org/licenses/mit-license.php
 		});
 		return _names;
 	};
+
+	has = function(name){
+		return names().indexOf(name) !== -1;
+	};
 			
 	methods = {
 		init : init, 
@@ -575,7 +579,8 @@ http://www.opensource.org/licenses/mit-license.php
 		expand : expand,
 		back : back, 
 		forward : forward, 
-		names : names
+		names : names, 
+		has : has
 	};
 	
 	
