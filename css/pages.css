@@ -18,7 +18,9 @@ div {
 *[data-icon]:before {
   content: attr(data-icon);
   font-family: 'pictos';
-  margin-right: 5px;
+  display: inline-block;
+  vertical-align: top;
+  min-width: 20px;
 }
 .pictos {
   font-family: pictos;
