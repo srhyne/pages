@@ -164,6 +164,7 @@
     _selector = selector + ":not(.pages-0)"; //don't overide original selector
     offset = null;  
     
+    
     start = function(e) {  
       var orig, pos, _this;
       
@@ -243,11 +244,11 @@
     var _moved, _start, _end;
 
     if(!Modernizr.touch){
-      return this.on('click.tappable', selector, cb);
+      return this.on('click', selector, cb);
     }
 
     _moved = false;
-
+    
     //TODO namespace this.. 
     this
     .on('touchstart.tappable', selector, function(e){
@@ -257,7 +258,6 @@
       _moved = true;
     })
     .on('touchend.tappable', selector, function(e){
-      var _this;
       if(_moved === false && _start === this){
        cb.apply(this, arguments)  
       }
@@ -456,7 +456,9 @@ http://www.opensource.org/licenses/mit-license.php
 		
 		//get width of container //cache this?
 		singlePage = _isSinglePage();
-		offset = pageCount === 0 || singlePage ? 0 : lastPage.width();
+		offset = (pageCount === 0 || singlePage || extraClasses.indexOf('expanded') !== -1) 
+							? 0 
+							: lastPage.width();
 										
 		// offset = Math.round(offset);
 		

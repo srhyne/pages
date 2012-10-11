@@ -169,7 +169,9 @@
 		
 		//get width of container //cache this?
 		singlePage = _isSinglePage();
-		offset = pageCount === 0 || singlePage ? 0 : lastPage.width();
+		offset = (pageCount === 0 || singlePage || extraClasses.indexOf('expanded') !== -1) 
+							? 0 
+							: lastPage.width();
 										
 		// offset = Math.round(offset);
 		
