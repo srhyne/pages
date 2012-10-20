@@ -1,7 +1,7 @@
 !function($){
 	
 	//option obj, $ window, "div."+ns
-	var _opts, _window, _content, selector, currentPage,
+	var _opts, _window, _content, selector, currentPage, useiScroll,
 	
 		//private methods
     _collapse, _fb, _open, _all, _isSinglePage,
@@ -103,8 +103,8 @@
 		_opts = $.extend(_opts, customOpts || {}, true);	
 		// add opts data to scope
 	
+	
 		//testing this
-		
 	  Modernizr.load([
       {
       	//load them regardless
@@ -118,6 +118,12 @@
 	  //to desktop.
     Modernizr.touch && _content.swipe(selector);
 		
+		Modernizr.addTest('overflowscrolling', function(){
+  		return Modernizr.testAllProps("overflowScrolling");
+		});	
+
+		useiScroll = (!Modernizr.overflowscrolling && iScroll);
+
 		return $[ns];
 	};
 	
@@ -182,7 +188,7 @@
 		_anim = $.extend({}, _opts.css3, _anim);
 		
     pageContent = $('<div/>', { 
-		    'class' : 'page-content',
+		    'class' : 'page-content scroller',
 		    html : _el
 		});
 		  
@@ -204,23 +210,19 @@
 		})
 		.appendTo(container)
 		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
-		  var scrollers;
-		  
-		  if(typeof iScroll !== 'undefined'){
-        scrollers = _el.find('.scroller');
-        //if there other scrollers use that not the whole page..
-        if(scrollers[0]){
-          scrollers.each(function(){
-            //TODO add a way to pass in iscroll data from the template
-            // i.e. data-scrollers-vScrollbar or something.. 
+		  var scrollers = _el.find('.scroller');
+
+		  if(useiScroll){
+		  	if(scrollers[0]){
+		  		scrollers.each(function(){
             iScroll['_'+this.id] = new iScroll(this,{ vScrollbar : false });
           });
-        }
-        else{
-        	iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
-        }
-		  }//enf of if 
-      
+		  	}
+		  	else{
+		  		iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
+		  	}
+		  }
+
       return typeof callback === 'function' && callback.call(_el);
 		});
 		

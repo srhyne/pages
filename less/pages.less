@@ -251,6 +251,13 @@ div{
 }
 
 
+html.overflowscrolling .scroller{
+  -webkit-overflow-scrolling : touch;
+  > * {
+    -webkit-transform: translateZ(0px);
+  }
+}
+
 //desktop, stuff with no touch
 html.no-touch{
   

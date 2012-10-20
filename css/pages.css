@@ -190,6 +190,12 @@ div {
     left: 0px;
   }
 }
+html.overflowscrolling .scroller {
+  -webkit-overflow-scrolling: touch;
+}
+html.overflowscrolling .scroller > * {
+  -webkit-transform: translatez(0px);
+}
 html.no-touch [data-page]:hover td,
 html.no-touch [data-page]:hover th {
   background-color: #FDF6E3 !important;

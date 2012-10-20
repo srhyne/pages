@@ -49,31 +49,44 @@
       var _this, _anim, parentPage, dir, parentWidth, x;
       
       
-      if(Math.abs(offset.diffY) > 40 && _page !== this){
+      if(Math.abs(offset.diffY) > 20 && _page !== this){
         return true
       }
       
       e.stopPropagation();
       
+
+      dir = offset.diffX >= 40 ? "forward" : offset.diffX <= -40 ? "back" : false;
+
+      if(dir){
+        return window.history[dir]();
+      }
+
+      return false;
+
+      /*
+       this was the old way but it would break the history system..
       _this = $(this);
       _anim = $.extend({}, {
   			  leaveTransforms : true,
     			useTranslate3d : true
       });
       
+
       // var posDiff = _this.position().left - offset.prevX;
       dir = offset.diffX >= 40 ? "left" : offset.diffX <= -40 ? "right" : false;
+
       parentWidth = _this.parents(selector).eq(0).width();
       x = dir === 'right' ? parentWidth + 1 : dir === 'left' ? 0 : offset.prevX;
-       
-    //dragging from left to right
-		_anim.left = x;
-		_this.addClass('sliding').animate(_anim, 500, "easeOutCirc",function(){
-      var classMethod = dir === 'left' ? 'add' : 'remove';
-			//add or remove class depedning on direction	
-			_this[classMethod+"Class"]('closed').removeClass('sliding');
-  	});
-  	
+         
+      //dragging from left to right
+  		_anim.left = x;
+  		_this.addClass('sliding').animate(_anim, 500, "easeOutCirc",function(){
+        var classMethod = dir === 'left' ? 'add' : 'remove';
+  			//add or remove class depedning on direction	
+  			_this[classMethod+"Class"]('closed').removeClass('sliding');
+    	});
+       */
   };
   
   
