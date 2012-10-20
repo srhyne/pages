@@ -6,6 +6,10 @@ html, body{
   margin:0!important;
 }
 
+
+*{
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
 //border box
 div{
 	-moz-box-sizing: border-box; 
@@ -140,7 +144,8 @@ div{
 	border : none;	
 	height:100%;
 	width : 50%;
-/*  -webkit-perspective: 1000;*/
+  -webkit-transform: translate3d(0px,0px,0px);
+  -webkit-perspective : 1000;
   -webkit-backface-visibility: hidden;
   
 	div.page-content{
@@ -160,7 +165,12 @@ div{
   
 	> .page{
   	border-left:1px solid grey;
+    box-shadow: -1px 0 2px rgba(0, 0, 0, .2);
   	width:100%;
+    
+    &.expanded{
+      width:200%;
+    }
   	
   	&.sliding{
       border-left:1px solid grey !important;
@@ -229,9 +239,7 @@ div{
       padding:10px 20px;
       text-align: left;
       font-size:18px;
-      &:first-child{
-        padding-top:0px;
-      }
+      
       span.pictos{
         width:30px;
         display:inline-block;
