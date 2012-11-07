@@ -513,15 +513,29 @@ http://www.opensource.org/licenses/mit-license.php
 		.appendTo(container)
 		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
 		  var scrollers = _el.find('.scroller');
+      var onBeforeScrollStart = function (e) {
+        var nodeType = e.explicitOriginalTarget ?
+          e.explicitOriginalTarget.nodeName.toLowerCase() :
+          (e.target ? e.target.nodeName.toLowerCase():'');
+
+        if (nodeType != 'select' && nodeType != 'option' && nodeType != 'input' && nodeType != 'textarea')
+            e.preventDefault();
+      };
 
 		  if(useiScroll){
 		  	if(scrollers[0]){
 		  		scrollers.each(function(){
-            iScroll['_'+this.id] = new iScroll(this,{ vScrollbar : false });
+            iScroll['_'+this.id] = new iScroll(this,{ 
+              vScrollbar : false,
+              onBeforeScrollStart: onBeforeScrollStart
+            });
           });
 		  	}
 		  	else{
-		  		iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
+		  		iScroll['_'+pageCount] = new iScroll(pageContent[0],{ 
+            vScrollbar : false,
+            onBeforeScrollStart: onBeforeScrollStart
+          });
 		  	}
 		  }
 
