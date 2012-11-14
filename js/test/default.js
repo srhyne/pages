@@ -517,9 +517,9 @@ http://www.opensource.org/licenses/mit-license.php
         var nodeType = e.explicitOriginalTarget ?
           e.explicitOriginalTarget.nodeName.toLowerCase() :
           (e.target ? e.target.nodeName.toLowerCase():'');
-
-        if (nodeType != 'select' && nodeType != 'option' && nodeType != 'input' && nodeType != 'textarea')
-            e.preventDefault();
+        
+        if ($.inArray(nodeType, ['select', 'option', 'input','textarea']) === -1)
+          e.preventDefault();
       };
 
 		  if(useiScroll){
