@@ -4,7 +4,7 @@
 	var _opts, _window, _content, selector, currentPage, useiScroll,
 	
 		//private methods
-    _collapse, _fb, _open, _all, _isSinglePage,
+    _collapse, _fb, _open, _all, _isSinglePage, _onBeforeScrollStart,
 		
 		//exported methods
 		expand, find, init, repaint, add, drop, back, forward, names, has,
@@ -212,27 +212,45 @@
 		})
 		.appendTo(container)
 		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
-		  var scrollers = _el.find('.scroller');
+			var scrollers, scrollSettings, _iScroll;
+
+		  scrollers = _el.find('.scroller');
+		  scrollSettings = { 
+		  	vScrollbar : false, 
+		  	onBeforeScrollStart : _onBeforeScrollStart 
+		  };
+		  _iScroll = iScroll;
 
 		  if(useiScroll){
 		  	if(scrollers[0]){
 		  		scrollers.each(function(){
-            iScroll['_'+this.id] = new iScroll(this,{ vScrollbar : false });
+            _iScroll['_'+this.id] = new _iScroll(this, scrollSettings);
           });
 		  	}
 		  	else{
-		  		iScroll['_'+pageCount] = new iScroll(pageContent[0],{ vScrollbar : false });
+		  		_iScroll['_'+pageCount] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
 
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-    
+  
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	};
 	
+	_onBeforeScrollStart = function (e) {
+		var nodeType, elements;
+
+	  nodeType = e.explicitOriginalTarget 
+	  		? e.explicitOriginalTarget.nodeName.toLowerCase() 
+	  		: (e.target ? e.target.nodeName.toLowerCase() : '');
+	  
+	  elements = ['select', 'option', 'input','textarea'];
+
+	 	(elements.indexOf(nodeType) === -1) && e.preventDefault();  
+  };
 	
 	//@param s mixed selector int index, string searches for $(selector).data('key'+ns);
 	find = function(s, callback){
