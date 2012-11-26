@@ -40,14 +40,15 @@
 		cb = typeof cb === 'function' ? cb : function(){ return false; };	
 		time = time <= _opts.time ? time : _opts.time;
 		
-		!notClosed[0] && cb();
-	
-		notClosed && notClosed.animate(_anim, time, 'easeOutCirc',function(){
+		if(!notClosed[0]){
+			return cb();
+		}
+
+		return notClosed.animate(_anim, time, 'easeOutCirc',function(){
       notClosed.addClass('closed');
 			cb();
 		});
-
-		return pages;
+		
 	};
 	
 	
@@ -341,6 +342,7 @@
     }, css || {})
     
 	  return this.css(styles);
+	 
 	}
 	
 	//reposition x tranform based on parent
@@ -353,6 +355,7 @@
       _this.slide(pWidth);
     });
     
+   
     return this;
   }
 	
