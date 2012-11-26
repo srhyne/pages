@@ -333,7 +333,7 @@ http://www.opensource.org/licenses/mit-license.php
 	  var _anim, notClosed, _selector;
 	  
     _anim = $.extend({}, _opts.css3, {left : 0});
-    _selector = "."+ns+"-0, .closed";
+    _selector = ":first, .closed";
 			//took out :animated from filter because it was causing problems inside the profile.
     notClosed = pages.not(_selector); 
     
@@ -496,8 +496,8 @@ http://www.opensource.org/licenses/mit-license.php
 		});
 		  
     _page = $("<div/>",{
-      id : ns+"-"+pageCount,
-			'class' : _opts.cls +" "+ ns+"-"+pageCount+' '+extraClasses, //dont take off index class!
+      id : ns + "-" + ( new Date().getTime() ),
+			'class' : _opts.cls + ' ' + extraClasses, //dont take off index class!
 			html : pageContent
 		})
 		.data({
@@ -604,6 +604,23 @@ http://www.opensource.org/licenses/mit-license.php
 	has = function(name){
 		return names().indexOf(name) !== -1;
 	};
+
+	function promote () {
+		var pages, parent, child;
+
+		pages = _all();
+		
+		if(pages.length < 2){
+			return $[ns];
+		}
+
+		parent = pages.eq(0);
+		//first.children(selector).detach();
+		child =  pages.eq(1).detach(); 
+		parent.replaceWith(child);
+		
+		return $[ns];
+	}
 			
 	methods = {
 		init : init, 
@@ -617,7 +634,8 @@ http://www.opensource.org/licenses/mit-license.php
 		forward : forward, 
 		names : names, 
 		has : has, 
-		isSinglePage : isSinglePage
+		isSinglePage : isSinglePage, 
+		promote : promote
 	};
 	
 	
@@ -658,6 +676,7 @@ http://www.opensource.org/licenses/mit-license.php
    
     return this;
   }
+
 	
   
 	
