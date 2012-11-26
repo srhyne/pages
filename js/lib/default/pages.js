@@ -4,10 +4,10 @@
 	var _opts, _window, _content, selector, currentPage, useiScroll,
 	
 		//private methods
-    _collapse, _fb, _open, _all, _isSinglePage, _onBeforeScrollStart,
+    _collapse, _fb, _open, _all, _onBeforeScrollStart,
 		
 		//exported methods
-		expand, find, init, repaint, add, drop, back, forward, names, has,
+		expand, find, init, repaint, add, drop, back, forward, names, has, isSinglePage, 
 		
 		//public methods object
 		methods, 
@@ -84,12 +84,8 @@
     return _content.find(selector);
   };
   
-  _isSinglePage = function(){
-    return (_window.width() <= _opts.twoPageMinWidth ? true : false);    
-  };
   
 	//----------------------------------------------private methods exported----------------------------//
-
 	//check for animate
 	//TODO check for double init
 	init = function(customOpts, callback){
@@ -128,6 +124,10 @@
 	};
 	
 	
+	isSinglePage = function(){
+    return (_window.width() <= _opts.twoPageMinWidth ? true : false);    
+  };
+  
   //repaint the animation offsets of the panels..
 	repaint = function(){
     var pages;
@@ -140,7 +140,7 @@
 	  
     pages.slice(1).filter(':not(.closed)').updateX();
     
-    if( !_isSinglePage() ){
+    if( isSinglePage() ){
       return false;
     }
     
@@ -174,7 +174,7 @@
 		container = lastPage[0] ? lastPage : this;
 		
 		//get width of container //cache this?
-		singlePage = _isSinglePage();
+		singlePage = isSinglePage();
 		offset = (pageCount === 0 || singlePage || extraClasses.indexOf('expanded') !== -1) 
 							? 0 
 							: lastPage.width();
@@ -315,7 +315,8 @@
 		back : back, 
 		forward : forward, 
 		names : names, 
-		has : has
+		has : has, 
+		isSinglePage : isSinglePage
 	};
 	
 	
