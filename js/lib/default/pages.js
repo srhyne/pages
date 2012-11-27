@@ -40,22 +40,22 @@
 		cb = typeof cb === 'function' ? cb : function(){ return false; };	
 		time = time <= _opts.time ? time : _opts.time;
 		
-		if(!notClosed[0]){
-			return cb();
-		}
+		!notClosed[0] && cb();
 
-		return notClosed.animate(_anim, time, 'easeOutCirc',function(){
+		notClosed && notClosed.animate(_anim, time, 'easeOutCirc',function(){
       notClosed.addClass('closed');
 			cb();
 		});
-		
+
+		return pages;
+	
 	};
 	
 	
 	_fb = function(dir, cb){
 		var _pages = _all(),
 			method = dir === 'back' ? "parents" : "children"; 
-			toOpen = _pages.filter("."+ns+"-0, .closed").last()[method](selector).eq(0); 	
+			toOpen = _pages.filter("."+ns+":first, .closed").last()[method](selector).eq(0); 	
 		return open(toOpen, cb);
 	};
 	
@@ -318,7 +318,7 @@
 		//first.children(selector).detach();
 		child =  pages.eq(1).detach(); 
 		parent.replaceWith(child);
-		
+
 		return $[ns];
 	}
 			
