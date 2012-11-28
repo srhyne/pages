@@ -218,7 +218,7 @@
 		  scrollers = _el.find('.scroller');
 		  scrollSettings = { 
 		  	vScrollbar : false, 
-		  	onBeforeScrollStart : _onBeforeScrollStart 
+		  	onBeforeScrollStart : _onBeforeScrollStart
 		  };
 		  _iScroll = iScroll;
 
@@ -241,16 +241,12 @@
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	};
 	
-	_onBeforeScrollStart = function (e) {
-		var nodeType, elements;
-
-	  nodeType = e.explicitOriginalTarget 
-	  		? e.explicitOriginalTarget.nodeName.toLowerCase() 
-	  		: (e.target ? e.target.nodeName.toLowerCase() : '');
-	  
-	  elements = ['select', 'option', 'input','textarea'];
-
-	 	(elements.indexOf(nodeType) === -1) && e.preventDefault();  
+  _onBeforeScrollStart = function(e){
+  	var _target = $(e.target);
+  	if(!_target.is(':input, [draggable]')){
+  		e.preventDefault();
+  		e.stopPropagation();
+  	}
   };
 	
 	//@param s mixed selector int index, string searches for $(selector).data('key'+ns);
