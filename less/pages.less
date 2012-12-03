@@ -269,6 +269,28 @@ html.no-touch{
     cursor:pointer;
   }
   
+   body::-webkit-scrollbar{
+    width:0px;
+    height:0px;
+   }
+   
+   div.page{
+     
+     > div.page-content, .scroller{
+       &::-webkit-scrollbar{
+          width: 0px;
+          height:100%;
+        }
+
+        &::-webkit-scrollbar-thumb{
+          background:rgba(0,0,0,.2);
+          -webkit-box-shadow:0px 1px 2px rgba(0,0,0,.1);
+          border:1px solid rgba(0,0,0,.1);
+        }
+     }
+     
+     
+   }//end of div.page
 
 }
 
