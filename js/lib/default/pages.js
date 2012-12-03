@@ -7,7 +7,7 @@
     _collapse, _fb, _open, _all, _onBeforeScrollStart,
 		
 		//exported methods
-		expand, find, init, repaint, add, drop, back, forward, names, has, isSinglePage, 
+		find, init, repaint, add, drop, back, forward, names, has, isSinglePage, 
 		
 		//public methods object
 		methods, 
@@ -317,6 +317,10 @@
 
 		return $[ns];
 	}
+
+	function each (cb) {
+		_all().each(cb);
+	}
 			
 	methods = {
 		init : init, 
@@ -324,8 +328,8 @@
 		add : add, 
 		drop : drop, 
 		find : find, 
+		each : each,
 		open : open, 
-		expand : expand,
 		back : back, 
 		forward : forward, 
 		names : names, 

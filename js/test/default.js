@@ -307,7 +307,7 @@ http://www.opensource.org/licenses/mit-license.php
     _collapse, _fb, _open, _all, _onBeforeScrollStart,
 		
 		//exported methods
-		expand, find, init, repaint, add, drop, back, forward, names, has, isSinglePage, 
+		find, init, repaint, add, drop, back, forward, names, has, isSinglePage, 
 		
 		//public methods object
 		methods, 
@@ -617,6 +617,10 @@ http://www.opensource.org/licenses/mit-license.php
 
 		return $[ns];
 	}
+
+	function each (cb) {
+		_all().each(cb);
+	}
 			
 	methods = {
 		init : init, 
@@ -624,8 +628,8 @@ http://www.opensource.org/licenses/mit-license.php
 		add : add, 
 		drop : drop, 
 		find : find, 
+		each : each,
 		open : open, 
-		expand : expand,
 		back : back, 
 		forward : forward, 
 		names : names, 
