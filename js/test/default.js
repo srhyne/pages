@@ -449,6 +449,8 @@ http://www.opensource.org/licenses/mit-license.php
 
 	};
 	
+
+	function t() { return new Date().getTime(); }
 	
 	//@param el $ object or html that's being i	nserted into the new page
 	// this in callback refers to the el being added NOT .page (TODO change this?)
@@ -491,12 +493,12 @@ http://www.opensource.org/licenses/mit-license.php
 		_anim = $.extend({}, _opts.css3, _anim);
 		
     pageContent = $('<div/>', { 
-		    'class' : 'page-content scroller',
+		    'class' : 'page-content',
 		    html : _el
 		});
 		  
     _page = $("<div/>",{
-      id : ns + "-" + ( new Date().getTime() ),
+      id : ns + "-" + t(),
 			'class' : _opts.cls + ' ' + extraClasses, //dont take off index class!
 			html : pageContent
 		})
@@ -525,11 +527,11 @@ http://www.opensource.org/licenses/mit-license.php
 		  if(useiScroll){
 		  	if(scrollers[0]){
 		  		scrollers.each(function(){
-            _iScroll['_'+this.id] = new _iScroll(this, scrollSettings);
+            _iScroll[ 'scroller-' + t() ] = new _iScroll(this, scrollSettings);
           });
 		  	}
-		  	else{
-		  		_iScroll['_'+pageCount] = new _iScroll(pageContent[0], scrollSettings);
+		  	else if( extraClasses.indexOf('no-scrolling') === -1 ){
+		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
 
@@ -540,6 +542,8 @@ http://www.opensource.org/licenses/mit-license.php
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	};
+
+	
 	
   _onBeforeScrollStart = function(e){
   	var _target = $(e.target);
@@ -1414,15 +1418,25 @@ iScroll.prototype = {
 		deltaX = that.x + wheelDeltaX;
 		deltaY = that.y + wheelDeltaY;
 
+		
 		if (deltaX > 0) deltaX = 0;
 		else if (deltaX < that.maxScrollX) deltaX = that.maxScrollX;
 
 		if (deltaY > that.minScrollY) deltaY = that.minScrollY;
 		else if (deltaY < that.maxScrollY) deltaY = that.maxScrollY;
     
-    if(that.maxScrollY < 0){
-		  that.scrollTo(deltaX, deltaY, 0);
+    //added by Stephen to round to the nearest pixel
+    //fixes fuzziness
+    deltaX = Math.floor(deltaX);
+    deltaY = Math.floor(deltaY);
+
+    if(that.maxScrollY < 0 || that.maxScrollX < 0){
+		  nextFrame(function(){
+		  	that.scrollTo(deltaX, deltaY, 0);	
+		  });
     }
+
+
 	},
 	
 	_mouseout: function (e) {
@@ -1659,6 +1673,8 @@ iScroll.prototype = {
 		that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
 		that.dirX = 0;
 		that.dirY = 0;
+
+		console.log(that.maxScrollY);
 
 		if (that.options.onRefresh) that.options.onRefresh.call(that);
 

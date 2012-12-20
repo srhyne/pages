@@ -149,6 +149,8 @@
 
 	};
 	
+
+	function t() { return new Date().getTime(); }
 	
 	//@param el $ object or html that's being i	nserted into the new page
 	// this in callback refers to the el being added NOT .page (TODO change this?)
@@ -191,12 +193,12 @@
 		_anim = $.extend({}, _opts.css3, _anim);
 		
     pageContent = $('<div/>', { 
-		    'class' : 'page-content scroller',
+		    'class' : 'page-content',
 		    html : _el
 		});
 		  
     _page = $("<div/>",{
-      id : ns + "-" + ( new Date().getTime() ),
+      id : ns + "-" + t(),
 			'class' : _opts.cls + ' ' + extraClasses, //dont take off index class!
 			html : pageContent
 		})
@@ -225,11 +227,11 @@
 		  if(useiScroll){
 		  	if(scrollers[0]){
 		  		scrollers.each(function(){
-            _iScroll['_'+this.id] = new _iScroll(this, scrollSettings);
+            _iScroll[ 'scroller-' + t() ] = new _iScroll(this, scrollSettings);
           });
 		  	}
-		  	else{
-		  		_iScroll['_'+pageCount] = new _iScroll(pageContent[0], scrollSettings);
+		  	else if( extraClasses.indexOf('no-scrolling') === -1 ){
+		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
 
@@ -240,6 +242,8 @@
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	};
+
+	
 	
   _onBeforeScrollStart = function(e){
   	var _target = $(e.target);

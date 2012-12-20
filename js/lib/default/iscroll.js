@@ -663,15 +663,25 @@ iScroll.prototype = {
 		deltaX = that.x + wheelDeltaX;
 		deltaY = that.y + wheelDeltaY;
 
+		
 		if (deltaX > 0) deltaX = 0;
 		else if (deltaX < that.maxScrollX) deltaX = that.maxScrollX;
 
 		if (deltaY > that.minScrollY) deltaY = that.minScrollY;
 		else if (deltaY < that.maxScrollY) deltaY = that.maxScrollY;
     
-    if(that.maxScrollY < 0){
-		  that.scrollTo(deltaX, deltaY, 0);
+    //added by Stephen to round to the nearest pixel
+    //fixes fuzziness
+    deltaX = Math.floor(deltaX);
+    deltaY = Math.floor(deltaY);
+
+    if(that.maxScrollY < 0 || that.maxScrollX < 0){
+		  nextFrame(function(){
+		  	that.scrollTo(deltaX, deltaY, 0);	
+		  });
     }
+
+
 	},
 	
 	_mouseout: function (e) {
@@ -908,6 +918,8 @@ iScroll.prototype = {
 		that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
 		that.dirX = 0;
 		that.dirY = 0;
+
+		console.log(that.maxScrollY);
 
 		if (that.options.onRefresh) that.options.onRefresh.call(that);
 
