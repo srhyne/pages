@@ -919,7 +919,6 @@ iScroll.prototype = {
 		that.dirX = 0;
 		that.dirY = 0;
 
-		console.log(that.maxScrollY);
 
 		if (that.options.onRefresh) that.options.onRefresh.call(that);
 
