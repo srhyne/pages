@@ -22,7 +22,7 @@
     
     //start pages
 		$.pages('init', {
-		  time : dom.win.width() <= 320 ? 500 : 700
+      time : dom.win.width() <= 320 ? 500 : 700
 		});
 		
 		//export do
@@ -41,15 +41,15 @@
     
     dom.win.resize(function(){
       $.pages('repaint');
-    })
+    });
 
     dom.history.click(function(){
-  		var html = "";
-  		$.pages('names').forEach(function(name){
-  			html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
-  		});
-      dom.historyList.html(html);
-  	});
+      var html = "";
+      $.pages('names').forEach(function(name){
+        html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
+      });
+        dom.historyList.html(html);
+    });
 
   }
   
