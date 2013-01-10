@@ -413,7 +413,7 @@ http://www.opensource.org/licenses/mit-license.php
 	  
 	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
 	  //to desktop.
-    Modernizr.touch && _content.swipe(selector);
+    // Modernizr.touch && _content.swipe(selector);
 		
 		Modernizr.addTest('overflowscrolling', function(){
   		return Modernizr.testAllProps("overflowScrolling");
@@ -718,7 +718,7 @@ http://www.opensource.org/licenses/mit-license.php
     
     //start pages
 		$.pages('init', {
-		  time : dom.win.width() <= 320 ? 500 : 700
+      time : dom.win.width() <= 320 ? 500 : 700
 		});
 		
 		//export do
@@ -737,15 +737,15 @@ http://www.opensource.org/licenses/mit-license.php
     
     dom.win.resize(function(){
       $.pages('repaint');
-    })
+    });
 
     dom.history.click(function(){
-  		var html = "";
-  		$.pages('names').forEach(function(name){
-  			html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
-  		});
-      dom.historyList.html(html);
-  	});
+      var html = "";
+      $.pages('names').forEach(function(name){
+        html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
+      });
+        dom.historyList.html(html);
+    });
 
   }
   

@@ -113,7 +113,7 @@
 	  
 	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
 	  //to desktop.
-    Modernizr.touch && _content.swipe(selector);
+    // Modernizr.touch && _content.swipe(selector);
 		
 		Modernizr.addTest('overflowscrolling', function(){
   		return Modernizr.testAllProps("overflowScrolling");
