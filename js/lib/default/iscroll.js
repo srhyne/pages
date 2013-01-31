@@ -97,7 +97,10 @@ var m = Math,
 
 			// Events
 			onRefresh: null,
-			onBeforeScrollStart: function (e) { e.preventDefault(); },
+			onBeforeScrollStart: function (e) { 
+				e.preventDefault(); 
+				return true;
+			},
 			onScrollStart: null,
 			onBeforeScrollMove: null,
 			onScrollMove: null,
@@ -319,7 +322,12 @@ iScroll.prototype = {
 
 		if (!that.enabled) return;
 
-		if (that.options.onBeforeScrollStart) that.options.onBeforeScrollStart.call(that, e);
+		if (that.options.onBeforeScrollStart) {
+			var _continue = that.options.onBeforeScrollStart.call(that, e);	
+			if(!_continue){
+				return;
+			}
+		}
 
 		if (that.options.useTransition || that.options.zoom) that._transitionTime(0);
 

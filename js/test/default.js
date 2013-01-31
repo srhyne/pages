@@ -547,12 +547,17 @@ http://www.opensource.org/licenses/mit-license.php
 	
   _onBeforeScrollStart = function(e){
   	var _target = $(e.target);
-  	if(!_target.is(':input, [draggable]')){
-  		e.preventDefault();
-  		e.stopPropagation();
+  	
+  	if(_target.is(':input, [draggable]')){
+  		return false;
   	}
+  	
+		//this is not an input so let's prevent default and return true
+		e.preventDefault();
+  	return true;
   };
-	
+
+
 	//@param s mixed selector int index, string searches for $(selector).data('key'+ns);
 	find = function(s, callback){
 		var _pages, _page;
@@ -852,7 +857,10 @@ var m = Math,
 
 			// Events
 			onRefresh: null,
-			onBeforeScrollStart: function (e) { e.preventDefault(); },
+			onBeforeScrollStart: function (e) { 
+				e.preventDefault(); 
+				return true;
+			},
 			onScrollStart: null,
 			onBeforeScrollMove: null,
 			onScrollMove: null,
@@ -1074,7 +1082,12 @@ iScroll.prototype = {
 
 		if (!that.enabled) return;
 
-		if (that.options.onBeforeScrollStart) that.options.onBeforeScrollStart.call(that, e);
+		if (that.options.onBeforeScrollStart) {
+			var _continue = that.options.onBeforeScrollStart.call(that, e);	
+			if(!_continue){
+				return;
+			}
+		}
 
 		if (that.options.useTransition || that.options.zoom) that._transitionTime(0);
 
