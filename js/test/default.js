@@ -548,7 +548,7 @@ http://www.opensource.org/licenses/mit-license.php
   _onBeforeScrollStart = function(e){
   	var _target = $(e.target);
   	
-  	if(_target.is(':input, [draggable]')){
+  	if(_target.is(':input, [draggable], option')){
   		return false;
   	}
   	
