@@ -1,4 +1,5 @@
 module.exports = function(grunt){
+
   var _defaults, _sans;
   
   _defaults = [
@@ -28,34 +29,47 @@ module.exports = function(grunt){
   
  
  grunt.initConfig({
+
    concat : {
-     _default : {
+
+     "default" : {
        src : _defaults, 
        dest : 'js/test/default.js'
      }
    }, 
-   
-   min : {
-     
-     _default : {
-       src : _defaults, 
-       dest : 'js/min/default.min.js'
+  
+   uglify : {
+
+     options: {
+        mangle : true,
+        compress : true,
+        // the banner is inserted at the top of the output
+        banner: '/*! pages <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+    },
+
+     "default" : {
+
+      files : {
+        'js/min/default.min.js' : ['<%= concat.default.dest %>']
+      }
+
      }, 
      
-     _sans : {
-       src : _sans, 
-       dest : 'js/min/sans_touch.min.js'
-     }, 
-     
-     uglify : {
-       mangle : {}, 
-       squeeze : {}
+     sans : {
+
+       files : {
+        'js/min/sans_touch.min.js' : _sans
+       }
      }
-     
-   }
+
+   }//END OF UGLIFY
  });
  
- grunt.registerTask('default', 'min:_default min:_sans concat:_default');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.registerTask('default', [
+    'concat:default', 'uglify:default', 'uglify:sans'
+  ]);
  
  		
  		

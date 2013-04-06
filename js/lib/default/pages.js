@@ -193,7 +193,7 @@
 		_anim = $.extend({}, _opts.css3, _anim);
 		
     pageContent = $('<div/>', { 
-		    'class' : 'page-content',
+		    'class' : 'page-content ' + (!useiScroll ? 'scroller' : ''),
 		    html : _el
 		});
 		  

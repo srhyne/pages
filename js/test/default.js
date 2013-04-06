@@ -493,7 +493,7 @@ http://www.opensource.org/licenses/mit-license.php
 		_anim = $.extend({}, _opts.css3, _anim);
 		
     pageContent = $('<div/>', { 
-		    'class' : 'page-content',
+		    'class' : 'page-content ' + (!useiScroll ? 'scroller' : ''),
 		    html : _el
 		});
 		  
