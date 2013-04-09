@@ -439,13 +439,16 @@ http://www.opensource.org/licenses/mit-license.php
 	    return false;
 	  }
 	  
-    pages.slice(1).filter(':not(.closed)').updateX();
+    pages.filter(':not(.closed)').updateX();
     
     if( isSinglePage() ){
-      return false;
+      return _open.call( pages.last() );
     }
     
-    _open.call( pages.last() );
+
+    (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
+    return true;
+    
 
 	};
 	
