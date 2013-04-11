@@ -1,4 +1,4 @@
-!function($){
+;(function($){
 	
 	//option obj, $ window, "div."+ns
 	var _opts, _window, _content, selector, currentPage, useiScroll,
@@ -401,4 +401,4 @@
 	};
 	
 	
-}(window.jQuery);
+})(window.jQuery);
