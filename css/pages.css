@@ -129,7 +129,6 @@ div {
 }
 .page > .page {
   border-left: 1px solid grey;
-  box-shadow: -1px 0 2px rgba(0, 0, 0, 0.2);
   width: 100%;
 }
 .page > .page.expanded {
@@ -137,10 +136,6 @@ div {
 }
 .page > .page.sliding {
   border-left: 1px solid grey !important;
-}
-.page > .page.closed {
-  border-left: none;
-  box-shadow: none;
 }
 .page table {
   margin-bottom: 0px;
