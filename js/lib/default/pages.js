@@ -60,9 +60,10 @@
 	};
 	
 	_open2 = function(){
-		var _this, _pages;
+		var o, _this, _pages;
 		
-		_this = _open2._this;
+		o = _open2;
+		_this = o._this;
 	
 		//don't use children here. We want all not the last one
 		_pages = _this.find(selector);
@@ -70,8 +71,14 @@
 		if(!_pages[0]){
 			return false;
 		}
-		
-		_open2._this = null;					
+
+		if(o.timer) clearTimeout(o.timer)
+
+		o.timer = setTimeout(function(){
+    	$.publish( ns + '.opening');    
+    }, 500);
+
+		o._this = null;					
 		return _pages.removeClass('closed').updateX();
 	};
 	
@@ -241,7 +248,7 @@
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-  
+  	$.publish(ns + '.opening');
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	};
