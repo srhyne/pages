@@ -200,13 +200,13 @@ html.no-touch body::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
-html.no-touch div.page > div.page-content::-webkit-scrollbar,
-html.no-touch div.page .scroller::-webkit-scrollbar {
+html.no-touch div.page-content::-webkit-scrollbar,
+html.no-touch .scroller::-webkit-scrollbar {
   width: 0px;
   height: 100%;
 }
-html.no-touch div.page > div.page-content::-webkit-scrollbar-thumb,
-html.no-touch div.page .scroller::-webkit-scrollbar-thumb {
+html.no-touch div.page-content::-webkit-scrollbar-thumb,
+html.no-touch .scroller::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
