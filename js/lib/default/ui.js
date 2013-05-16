@@ -36,11 +36,25 @@
     addEvents();
     pagesInit();
   }
+
   
   function addEvents(){
-    
+    var w, resizer;
+
+    w = dom.win.width();
+
     dom.win.resize(function(){
-      $.pages('repaint');
+      
+      if(resizer) clearTimeout(resizer);
+
+      resizer = setTimeout(function(){
+        var _w = dom.win.width();
+        if(w === _w){
+          return true;
+        }
+        return $.pages('repaint');
+      }, 200);
+
     });
 
     dom.history.click(function(){

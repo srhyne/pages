@@ -76,7 +76,7 @@
 
 		o.timer = setTimeout(function(){
     	$.publish( ns + '.opening');    
-    }, 500);
+    }, 1);
 
 		o._this = null;					
 		return _pages.removeClass('closed').updateX();
@@ -155,7 +155,6 @@
 
     (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
     return true;
-    
 
 	};
 	

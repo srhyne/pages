@@ -376,7 +376,7 @@ http://www.opensource.org/licenses/mit-license.php
 
 		o.timer = setTimeout(function(){
     	$.publish( ns + '.opening');    
-    }, 500);
+    }, 1);
 
 		o._this = null;					
 		return _pages.removeClass('closed').updateX();
@@ -455,7 +455,6 @@ http://www.opensource.org/licenses/mit-license.php
 
     (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
     return true;
-    
 
 	};
 	
@@ -747,11 +746,25 @@ http://www.opensource.org/licenses/mit-license.php
     addEvents();
     pagesInit();
   }
+
   
   function addEvents(){
-    
+    var w, resizer;
+
+    w = dom.win.width();
+
     dom.win.resize(function(){
-      $.pages('repaint');
+      
+      if(resizer) clearTimeout(resizer);
+
+      resizer = setTimeout(function(){
+        var _w = dom.win.width();
+        if(w === _w){
+          return true;
+        }
+        return $.pages('repaint');
+      }, 200);
+
     });
 
     dom.history.click(function(){
