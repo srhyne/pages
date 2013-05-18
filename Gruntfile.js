@@ -8,7 +8,7 @@ module.exports = function(grunt){
    'tiny-pubsub.js', 
    'tmpl.js', 
    'jquery.gestures.js',
-   'animate.min.js', 
+   'jquery.animate.js', 
    'pages.js', 
    'ui.js', 
    'iscroll.js'
