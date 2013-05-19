@@ -2295,12 +2295,16 @@ iScroll.prototype = {
 		if ('wheelDeltaX' in e) {
 			wheelDeltaX = e.wheelDeltaX / 12;
 			wheelDeltaY = e.wheelDeltaY / 12;
-		} else if('wheelDelta' in e) {
-			wheelDeltaX = wheelDeltaY = e.wheelDelta / 12;
 		} else if ('detail' in e) {
-			wheelDeltaX = wheelDeltaY = -e.detail * 3;
+			if (e.axis === 2) { // Vertical
+				wheelDeltaY = -e.detail * 3;
+				wheelDeltaX = 0;
+			} else { // Horizontal
+				wheelDeltaX = -e.detail * 3;
+				wheelDeltaY = 0;
+			}
 		} else {
-			return;
+			wheelDeltaX = wheelDeltaY = -e.wheelDelta / 12;
 		}
 		
 		if (that.options.wheelAction == 'zoom') {
