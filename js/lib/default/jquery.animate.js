@@ -44,6 +44,8 @@ Usage (exactly the same as it would be normally):
 	});
 
 Changelog:
+	1.02.CUSTOM BY Stephen Rhyne
+
 	1.02 (8/5/2013):
 		- Fixing use3D default flags. It must explicitly be set to false to disable 3d now, the plugin by default will use it if available.
 
@@ -239,7 +241,10 @@ Changelog:
 	var	cssTransitionProperties = ['top', 'right', 'bottom', 'left', 'opacity', 'height', 'width'],
 		directions = ['top', 'right', 'bottom', 'left'],
 		cssPrefixes = ['-webkit-', '-moz-', '-o-', ''],
-		pluginOptions = ['avoidTransforms', 'useTranslate3d', 'leaveTransforms'],
+		pluginOptions = [
+			'avoidTransforms', 'useTranslate3d', 
+			'leaveTransforms', 'leaveTransitions'
+		],
 		rfxnum = /^([+-]=)?([\d+-.]+)(.*)$/,
 		rupper = /([A-Z])/g,
 		defaultEnhanceData = {
@@ -682,11 +687,13 @@ Changelog:
 					}
 
 					// remove transition timing functions
-					self.
-						unbind(transitionEndEvent).
-						css(selfCSSData.original).
-						css(restore).
-						data(DATA_KEY, null);
+					self.unbind(transitionEndEvent);
+					
+					if(!prop.leaveTransitions){
+						self.css(selfCSSData.original)
+					}
+
+					self.css(restore).data(DATA_KEY, null);
 
 					// if we used the fadeOut shortcut make sure elements are display:none
 					if (prop.opacity === 'hide') {

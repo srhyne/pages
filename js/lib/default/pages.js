@@ -21,11 +21,14 @@
 		//animate 
 		css3 : {
 			leaveTransforms : true,
-			useTranslate3d : true	
+			useTranslate3d : true, 
+			leaveTransitions : true
 		},
     twoPageMinWidth : 767, //change to 768 to go 1 page on ipad in portrait
 		time :  1000	
 	};
+
+
 	
 	//closes all pages that aren't currently animated
 	//TODO return object
@@ -281,7 +284,7 @@
 					: s instanceof jQuery ? s : _pages.filter(s);
 					
 		//call with page as context			
-		typeof callback === 'function' && callback.call(_page);			
+		typeof callback === 'function' && _page && callback.call(_page);			
 		return $[ns];			
 	};
 	
