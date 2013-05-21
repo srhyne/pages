@@ -22,11 +22,7 @@
     
     //start pages
 		$.pages('init', {
-      time : dom.win.width() <= 320 ? 500 : 700,
-      css3 : {
-        //this is for debugging, non-css3 animations like IE 9
-        // avoidCSSTransitions : true  
-      }
+      time : dom.win.width() <= 320 ? 500 : 700
 		});
 		
 		//export do

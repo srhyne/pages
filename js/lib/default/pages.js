@@ -3,18 +3,12 @@
 	//option obj, $ window, "div."+ns
 	var _opts, _window, _content, selector, currentPage, useiScroll,
 	
-		//private methods
-    _collapse, _fb, _open, _all, _onBeforeScrollStart,
-		
-		//exported methods
-		find, init, repaint, add, drop, back, forward, names, has, isSinglePage, 
-		
 		//public methods object
 		methods, 
 		
 		//plugin namespace
 		ns = 'pages';
-		
+
 		//options
 	_opts = {
 		cls : "page", 
@@ -39,9 +33,14 @@
 	});
 
 
-	//closes all pages that aren't currently animated
-	//TODO return object
-	_collapse = function(pages, time, cb){
+	/**
+	 * Close all pages that aren't already closed, excluding the first page
+	 * @param  {jQuery array}   pages a collection of pages
+	 * @param  {int}   time how much time to spend animating
+	 * @param  {Function} cb    callback to call after animating
+	 * @return {$ Array}     return the pages that were just processed
+	 */
+	function _collapse(pages, time, cb){
 	  var _anim, notClosed, _selector;
 	  
     _anim = $.extend({}, _opts.css3, {left : 0});
@@ -63,20 +62,36 @@
 	
 	};
 	
-	
-	_fb = function(dir, cb){
+	/**
+	 * This is a forward backward method to quickly open
+	 * up different pages
+	 * @param  {[type]}   dir [description]
+	 * @param  {Function} cb  [description]
+	 * @return {[type]}       [description]
+	 */
+	function _fb(dir, cb){
 		var _pages = _all(),
 			method = dir === 'back' ? "parents" : "children"; 
 			toOpen = _pages.filter("."+ns+":first, .closed").last()[method](selector).eq(0); 	
 		return open(toOpen, cb);
 	};
 	
-	_open2 = function(){
+	/**
+	 * the very last open call
+	 * @return {[mixed]} returns either false or the pages
+	 * being opened
+	 */
+	function _open2(){
 		var o, _this, _pages;
 		
 		o = _open2;
 		_this = o._this;
+
+		if(!_this){
+			return false;
+		}
 	
+
 		//don't use children here. We want all not the last one
 		_pages = _this.find(selector);
     
@@ -94,21 +109,32 @@
 		return _pages.removeClass('closed').updateX();
 	};
 	
-	_open = function(){
+	/**
+	 * Sets up the open2 callback after collapsing the
+	 * pages that need to close
+	 * @return {[type]} [description]
+	 */
+	function _open(){
 		var toClose = this.parents(selector).andSelf();
 		_open2._this = this;
 		_collapse(toClose, _opts.time,  _open2); 
 	};
 	
-  _all = function(){
+	/**
+	 * get all _ops.cls 'pages'
+	 * @return $ Array
+	 */
+  function _all(){
     return _content.find(selector);
   };
   
-  
-	//----------------------------------------------private methods exported----------------------------//
-	//check for animate
-	//TODO check for double init
-	init = function(customOpts, callback){
+ 	/**
+ 	 * Bootstrap function that sets up pages..
+ 	 * sets up caching, modernizr loads, and options
+ 	 * @param  {Object}   customOpts options to override defaults
+ 	 * @return {[type]}              [description]
+ 	 */
+	function init(customOpts){
 		var og = window.location.origin + '/';
 
 		//set closure vars (See TOP);
@@ -118,7 +144,7 @@
 		//TODO I don't think you need to re-assign that here. 
 		_opts = $.extend(_opts, customOpts || {}, true);	
 		// add opts data to scope
-	
+	 
 	
 		//testing this
 	  Modernizr.load([
@@ -143,13 +169,20 @@
 		return $[ns];
 	};
 	
-	
-	isSinglePage = function(){
+	/**
+	 * calculation function for checking whether or not
+	 * the page should be in a single or two page layout
+	 * @return {Boolean} [description]
+	 */
+	function isSinglePage(){
     return (_window.width() <= _opts.twoPageMinWidth ? true : false);    
   };
   
-  //repaint the animation offsets of the panels..
-	repaint = function(){
+  /**
+   * restyles the pages when a change to the viewport is made
+   * @return mixed bool or $ array
+   */
+	function repaint(){
     var pages;
     
 	  pages = _all();
@@ -170,12 +203,26 @@
 
 	};
 	
-
-	function t() { return new Date().getTime(); }
+	/**
+	 * get a timestamp for unique id's
+	 * @return int timestamp
+	 */
+	function t() { 
+		return new Date().getTime(); 
+	}
 	
 	//@param el $ object or html that's being i	nserted into the new page
 	// this in callback refers to the el being added NOT .page (TODO change this?)
-	add = function(el, name, callback, extraClasses){
+	
+
+	/**
+	 * THE function for adding pages to the dom
+	 * @param {[type]}   el           [description]
+	 * @param {[type]}   name         [description]
+	 * @param {Function} callback     [description]
+	 * @param {[type]}   extraClasses [description]
+	 */
+	function add(el, name, callback, extraClasses){
 		var _el, w, pages, pageCount, lastPage,
 		    container, singlePage, offset, _anim, 
 		    pageContent, _page;
@@ -209,10 +256,7 @@
 			left : offset
 		};
 
-		console.log(_anim);
-		
-		//testing
-		
+				
 		_anim = $.extend({}, _opts.css3, _anim);
 		
     pageContent = $('<div/>', { 
@@ -268,7 +312,7 @@
 
 	
 	
-  _onBeforeScrollStart = function(e){
+  function _onBeforeScrollStart(e){
   	var _target = $(e.target);
   	
   	if(_target.is(':input, [draggable], option')){
@@ -282,7 +326,7 @@
 
 
 	//@param s mixed selector int index, string searches for $(selector).data('key'+ns);
-	find = function(s, callback){
+	function find(s, callback){
 		var _pages, _page;
 		//no page or number passed
 		if(typeof s === 'undefined'){
@@ -300,7 +344,7 @@
 	};
 	
 	
-	drop = function(s, callback){
+	function drop(s, callback){
 		return find(s,function(){
 			this.remove();
 			typeof callback === 'function' && callback();
@@ -308,19 +352,19 @@
 	};
 	
 	//TODO you need a cb here!
-	open = function(s){
+	function open(s){
 		return find(s, _open);
 	};
 	
-	back = function(cb){
+	function back(cb){
 		return _fb('back', cb);
 	};
 	
-	forward = function(cb){
+	function forward(cb){
 		return _fb('forward', cb);	
 	};
 	
-	names = function(cb){
+	function names(cb){
 		var _names = [];
     _all().each(function(i){
 			var data = $(this).data(ns) || {};
@@ -329,7 +373,7 @@
 		return _names;
 	};
 
-	has = function(name){
+	function has(name){
 		return names().indexOf(name) !== -1;
 	};
 
@@ -353,7 +397,74 @@
 	function each (cb) {
 		_all().each(cb);
 	}
-			
+
+  /**
+   * Creates a first style setting
+   * for slides & starting position when hitting add.
+   * @return {[type]} [description]
+   */
+  function getTransformStyle () {
+  	var agent;
+
+		agent = navigator.userAgent.toLowerCase();
+		
+		if(/webkit/.test(agent)){
+			return function(x){
+				return { '-webkit-transform' : 'translate3d('+x+'px, 0, 0)' };
+			}
+		}
+
+		if(/mozilla/.test(agent)){
+			return function(x){
+				return { "-moz-transform" : 'translate('+x+'px, 0)' };
+			}
+		}
+
+		//otherwise return left & right style for regular animation
+		return function( x ){
+			return { 'left' : x };
+		}
+
+  }
+	
+
+	$.fn.slide = function slide(x, css){
+		var styles;
+
+		slide.style = slide.style || getTransformStyle();
+		styles = $.extend(css || {}, slide.style(x) )
+
+		return this.css(styles);
+	}
+
+	//reposition x tranform based on parent
+  $.fn.updateX = function updateX(){
+
+    updateX.each = updateX.each || function() {
+    	var _this, pWidth;
+      _this = $(this);
+      pWidth = _this.parents(selector).eq(0).width();
+      _this.slide(pWidth);
+    };
+
+    this.each(updateX.each);
+    
+    return this;
+  }
+
+  $.fn.log = function(){
+    console.log(this);
+    return this;
+  };
+
+  //:pages(name)
+	$.expr[':'][ns] = function(a, i, m){
+		var pageData = $(a).data(ns) || {};
+		return pageData.name === m[3];
+	};
+
+	// $.single = $.single || function(a){return function(b){a[0]=b;return a}}($([1]));
+
 	methods = {
 		init : init, 
 		repaint : repaint,
@@ -369,76 +480,7 @@
 		isSinglePage : isSinglePage, 
 		promote : promote
 	};
-	
-	
-	//:pages(name)
-	$.expr[':'][ns] = function(a, i, m){
-		var pageData = $(a).data(ns) || {};
-		return pageData.name === m[3];
-	};
 
-  $.fn.log = function(){
-    console.log(this);
-    return this;
-  };
-
-  /**
-   * this function creates a first style setting
-   * for slides & starting position when hitting add.
-   * @return {[type]} [description]
-   */
-  function getTransformStyle () {
-  	var agent;
-
-		agent = navigator.userAgent.toLowerCase();
-		
-		//otherwise return left & right style for regular animation
-		return function( x ){
-			return { 'left' : x };
-		}
-
-
-		if(/webkit/.test(agent)){
-			return function(x){
-				return { '-webkit-transform' : 'translate3d('+x+'px, 0, 0)' };
-			}
-		}
-
-		if(/mozilla/.test(agent)){
-			return function(x){
-				return { "-moz-transform" : 'translate('+x+'px, 0)' };
-			}
-		}
-
-  }
-	
-
-	$.fn.slide = function slide(x, css){
-		var styles;
-
-		slide.style = slide.style || getTransformStyle();
-		styles = $.extend(css || {}, slide.style(x) )
-
-		return this.css(styles);
-	}
-
-	
-	//reposition x tranform based on parent
-  $.fn.updateX = function(){
-    
-    this.each(function(){
-      var _this, pWidth;
-      _this = $(this);
-      pWidth = _this.parents(selector).eq(0).width();
-      _this.slide(pWidth);
-    });
-    
-    return this;
-  }
-
-	
-  
-	
 	$[ns] = function( method ) {
 		_content = _content === undefined ? $('#content') : _content;
 	    if(methods[method]){
