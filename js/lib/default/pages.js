@@ -29,7 +29,16 @@
 	};
 
 
-	
+	//add easeOutCirc easing for fallback on non css3 animations
+	$.extend( $.easing, {
+
+		easeOutCirc: function (x, t, b, c, d) {
+			return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+		}
+
+	});
+
+
 	//closes all pages that aren't currently animated
 	//TODO return object
 	_collapse = function(pages, time, cb){
@@ -199,6 +208,8 @@
 		_anim = {
 			left : offset
 		};
+
+		console.log(_anim);
 		
 		//testing
 		
@@ -370,19 +381,47 @@
     console.log(this);
     return this;
   };
+
+  /**
+   * this function creates a first style setting
+   * for slides & starting position when hitting add.
+   * @return {[type]} [description]
+   */
+  function getTransformStyle () {
+  	var agent;
+
+		agent = navigator.userAgent.toLowerCase();
+		
+		//otherwise return left & right style for regular animation
+		return function( x ){
+			return { 'left' : x };
+		}
+
+
+		if(/webkit/.test(agent)){
+			return function(x){
+				return { '-webkit-transform' : 'translate3d('+x+'px, 0, 0)' };
+			}
+		}
+
+		if(/mozilla/.test(agent)){
+			return function(x){
+				return { "-moz-transform" : 'translate('+x+'px, 0)' };
+			}
+		}
+
+  }
 	
-	//apply a x transform..
-	$.fn.slide = function(x, css){
-	  var styles;
-	  
-    styles = $.extend({
-      "-webkit-transform" : "translate3d("+x+"px,0,0)",
-			"-moz-transform" : "translate("+x+"px,0)",
-    }, css || {})
-    
-	  return this.css(styles);
-	 
+
+	$.fn.slide = function slide(x, css){
+		var styles;
+
+		slide.style = slide.style || getTransformStyle();
+		styles = $.extend(css || {}, slide.style(x) )
+
+		return this.css(styles);
 	}
+
 	
 	//reposition x tranform based on parent
   $.fn.updateX = function(){
@@ -394,7 +433,6 @@
       _this.slide(pWidth);
     });
     
-   
     return this;
   }
 
