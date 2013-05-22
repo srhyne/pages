@@ -1442,7 +1442,7 @@ Changelog:
 		    'class' : 'page-content ' + (!useiScroll ? 'scroller' : ''),
 		    html : _el
 		});
-		  
+
     _page = $("<div/>",{
       id : ns + "-" + t(),
 			'class' : _opts.cls + ' ' + extraClasses, //dont take off index class!
@@ -1451,7 +1451,7 @@ Changelog:
 		.data({
 			pages : { 
 				offset : singlePage ? 0 : offset,  
-				name : name ? name : ns+"_"+pageCount
+				name : name === undefined ? (ns + "_" + pageCount) : name
 			} 	
 		})
 		.slide(this.width(), {
@@ -1547,7 +1547,9 @@ Changelog:
 		var _names = [];
     _all().each(function(i){
 			var data = $(this).data(ns) || {};
-			_names.push(data.name || ns + " " + i);
+			_names.push(
+				data.name === undefined ? (ns + "_" + i) : data.name
+			);
 		});
 		return _names;
 	};
