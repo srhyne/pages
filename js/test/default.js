@@ -1239,22 +1239,70 @@ Changelog:
 
 		return pages;
 	
-	};
+	}
+
+	/**
+	 * experimental way to get the next page not open
+	 * @return {[type]} [description]
+	 */
+	function getNextNotVisible () {
+		var width, page;
+
+		width = _content.width();
+		page = $([]);
+
+		_all().each(function(){
+			var _this = $(this);
+			 if( _this.offset().left >= width){
+			 	page = _this;
+			 	return false;
+			 }
+		});
+
+		return page;
+	}
+
+
+	/**
+	 * Experimental! way to get the next one to open.
+	 * @param  {[type]} dir [description]
+	 * @return {[type]}     [description]
+	 */
+	function toOpen(dir, just_name) {
+		var method, next, width;
+
+		if(dir === 'back'){
+			next = _all().filter("."+ns+":first, .closed").last().parents(selector).eq(0); 
+		}
+		else{
+			next = getNextNotVisible();
+		}
+
+		if(!just_name){
+			return next;
+		}
+
+		return getName(next[0]);
+	}
+
+	/**
+	 * Experimental! helper for driving fb to go back a page
+	 * @param  {Function} cb callback after opening
+	 * @return {[type]}      [description]
+	 */
+	function back(cb){
+		return open(toOpen('back'), cb);
+	}
 	
 	/**
-	 * This is a forward backward method to quickly open
-	 * up different pages
-	 * @param  {[type]}   dir [description]
-	 * @param  {Function} cb  [description]
-	 * @return {[type]}       [description]
+	 * Experimental! go forward a page (doesn't fire route)
+	 * @param  {Function} cb callback to be called after opening
+	 * @return {jquery collection}     pages
 	 */
-	function _fb(dir, cb){
-		var _pages = _all(),
-			method = dir === 'back' ? "parents" : "children"; 
-			toOpen = _pages.filter("."+ns+":first, .closed").last()[method](selector).eq(0); 	
-		return open(toOpen, cb);
-	};
-	
+	function forward(cb){
+		return open(toOpen('forward'), cb);
+	}
+
 	/**
 	 * the very last open call
 	 * @return {[mixed]} returns either false or the pages
@@ -1286,7 +1334,7 @@ Changelog:
 
 		o._this = null;					
 		return _pages.removeClass('closed').updateX();
-	};
+	}
 	
 	/**
 	 * Sets up the open2 callback after collapsing the
@@ -1297,7 +1345,7 @@ Changelog:
 		var toClose = this.parents(selector).andSelf();
 		_open2._this = this;
 		_collapse(toClose, _opts.time,  _open2); 
-	};
+	}
 	
 	/**
 	 * get all _ops.cls 'pages'
@@ -1305,7 +1353,7 @@ Changelog:
 	 */
   function _all(){
     return _content.find(selector);
-  };
+  }
   
  	/**
  	 * Bootstrap function that sets up pages..
@@ -1346,7 +1394,7 @@ Changelog:
 		useiScroll = (!Modernizr.overflowscrolling && iScroll);
 
 		return $[ns];
-	};
+	}
 	
 	/**
 	 * calculation function for checking whether or not
@@ -1355,7 +1403,7 @@ Changelog:
 	 */
 	function isSinglePage(){
     return (_window.width() <= _opts.twoPageMinWidth ? true : false);    
-  };
+  }
   
   /**
    * restyles the pages when a change to the viewport is made
@@ -1380,7 +1428,7 @@ Changelog:
     (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
     return true;
 
-	};
+	}
 	
 	/**
 	 * get a timestamp for unique id's
@@ -1447,14 +1495,16 @@ Changelog:
       id : ns + "-" + t(),
 			'class' : _opts.cls + ' ' + extraClasses, //dont take off index class!
 			html : pageContent
-		})
-		.data({
+		});
+
+		$.data(_page[0], {
 			pages : { 
 				offset : singlePage ? 0 : offset,  
 				name : name === undefined ? (ns + "_" + pageCount) : name
-			} 	
-		})
-		.slide(this.width(), {
+			}
+		});
+
+		_page.slide(this.width(), {
 		  right : 0, 
 			left : 0,
 			"z-index" : 2
@@ -1480,14 +1530,14 @@ Changelog:
 		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
-
+		  $.publish(ns + '.opened');
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-  	$.publish(ns + '.opening');
+		$.publish(ns + '.opening');
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
-	};
+	}
 
 	
 	
@@ -1501,7 +1551,7 @@ Changelog:
 		//this is not an input so let's prevent default and return true
 		e.preventDefault();
   	return true;
-  };
+  }
 
 
 	//@param s mixed selector int index, string searches for $(selector).data('key'+ns);
@@ -1520,7 +1570,7 @@ Changelog:
 		//call with page as context			
 		typeof callback === 'function' && _page && callback.call(_page);			
 		return $[ns];			
-	};
+	}
 	
 	
 	function drop(s, callback){
@@ -1528,35 +1578,48 @@ Changelog:
 			this.remove();
 			typeof callback === 'function' && callback();
 		});
-	};
+	}
 	
 	//TODO you need a cb here!
 	function open(s){
 		return find(s, _open);
-	};
+	}
 	
-	function back(cb){
-		return _fb('back', cb);
-	};
-	
-	function forward(cb){
-		return _fb('forward', cb);	
-	};
-	
-	function names(cb){
+	/**
+	 * get the name of a page..
+	 * @param div element page NOT jquery wrapped.
+	 * @return string page name
+	 */
+	function getName (page) {
+		var data;
+
+		if(!page){
+			return false;
+		}
+
+		page = page instanceof jQuery ? page[0] : page;
+
+		data = $.data(page, ns) || {};
+		return (data.name === undefined) ? (ns + "_" + i) : data.name;
+	}
+
+	/**
+	 * get the routes/names of each page
+	 * @return {array} list of names
+	 */
+	function names(){
 		var _names = [];
-    _all().each(function(i){
-			var data = $(this).data(ns) || {};
-			_names.push(
-				data.name === undefined ? (ns + "_" + i) : data.name
-			);
+
+		_all().each( function(){
+			_names.push( getName(this) );
 		});
+		
 		return _names;
-	};
+	}
 
 	function has(name){
 		return names().indexOf(name) !== -1;
-	};
+	}
 
 	function promote () {
 		var pages, parent, child;
@@ -1640,7 +1703,7 @@ Changelog:
 
   //:pages(name)
 	$.expr[':'][ns] = function(a, i, m){
-		var pageData = $(a).data(ns) || {};
+		var pageData = $.data(a, ns) || {};
 		return pageData.name === m[3];
 	};
 
@@ -1653,10 +1716,12 @@ Changelog:
 		drop : drop, 
 		find : find, 
 		each : each,
-		open : open, 
+		open : open,
+		toOpen : toOpen,
 		back : back, 
 		forward : forward, 
 		names : names, 
+		name : getName,
 		has : has, 
 		isSinglePage : isSinglePage, 
 		promote : promote
