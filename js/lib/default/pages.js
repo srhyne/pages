@@ -147,10 +147,13 @@
 			return false;
 		}
 
-		if(o.timer) clearTimeout(o.timer)
+		if(o.timer) clearTimeout(o.timer);
+
+		// console.log('_this', _this);
+		// console.log('pages', _pages);
 
 		o.timer = setTimeout(function(){
-    	$.publish( ns + '.opening');    
+    	$.publish( ns + '.opening', [ _pages ] );    
     }, 1);
 
 		o._this = null;					
@@ -355,7 +358,7 @@
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-		$.publish(ns + '.opening');
+		$.publish(ns + '.opening', [ _page ]);
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	}
