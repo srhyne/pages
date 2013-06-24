@@ -476,22 +476,29 @@
 
 		agent = navigator.userAgent.toLowerCase();
 		
+		if( /msie/.test(agent) && !/opera/.test(agent) ){
+			return function( x ){
+				return { 'left' : x };
+			};
+		}
+
+
 		if(/webkit/.test(agent)){
 			return function(x){
 				return { '-webkit-transform' : 'translate3d('+x+'px, 0, 0)' };
-			}
+			};
 		}
 
 		if(/mozilla/.test(agent)){
 			return function(x){
 				return { "-moz-transform" : 'translate('+x+'px, 0)' };
-			}
+			};
 		}
 
 		//otherwise return left & right style for regular animation
 		return function( x ){
 			return { 'left' : x };
-		}
+		};
 
   }
 	
@@ -501,7 +508,7 @@
 
 		slide.style = slide.style || getTransformStyle();
 		styles = $.extend(css || {}, slide.style(x) )
-
+		
 		return this.css(styles);
 	}
 
