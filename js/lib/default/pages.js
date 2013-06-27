@@ -41,20 +41,34 @@
 	 * @return {$ Array}     return the pages that were just processed
 	 */
 	function _collapse(pages, time, cb){
-	  var _anim, notClosed, _selector;
+	  var _anim, _selector, pagesToUpdate, isAnimLeft, animLeft;
 	  
     _anim = $.extend({}, _opts.css3, {left : 0});
     _selector = ":first, .closed";
 			//took out :animated from filter because it was causing problems inside the profile.
-    notClosed = pages.not(_selector); 
+    pagesToUpdate = pages.not(_selector); 
     
 		cb = typeof cb === 'function' ? cb : function(){ return false; };	
 		time = time <= _opts.time ? time : _opts.time;
 		
-		!notClosed[0] && cb();
+		if( !pagesToUpdate[0] ){
+			cb();
+			return pages;
+		}
 
-		notClosed && notClosed.animate(_anim, time, 'easeOutCirc',function(){
-      notClosed.addClass('closed');
+		isAnimLeft = $([]);
+		animLeft = $([]);
+
+		//todo is this going to be slow?
+		pagesToUpdate.each(function(){
+			var bucket = this.getBoundingClientRect().left === 0 ? isAnimLeft : animLeft;
+			bucket.push(this);
+		});
+
+		isAnimLeft[0] && isAnimLeft.addClass('closed');
+
+		animLeft[0] && animLeft.animate(_anim, time, 'easeOutCirc',function(){
+      animLeft.addClass('closed');
 			cb();
 		});
 
