@@ -368,7 +368,7 @@
 		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
-		  $.publish(ns + '.opened');
+		  $.publish(ns + '.opened', [_page]);
       return typeof callback === 'function' && callback.call(_el);
 		});
 		

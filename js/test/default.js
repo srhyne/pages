@@ -1547,7 +1547,7 @@ Changelog:
 		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
-		  $.publish(ns + '.opened');
+		  $.publish(ns + '.opened', [_page]);
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
@@ -1837,6 +1837,9 @@ Changelog:
 /*!
  * iScroll v4.1.9 ~ Copyright (c) 2011 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
+ *
+ * Modified by Stephen Rhyne
+ * 	Added a way to mock up a scroll event list for easier testing in Jasmine
  */
 (function(){
 var m = Math,
@@ -2008,9 +2011,46 @@ iScroll.prototype = {
 	pagesX: [], pagesY: [],
 	aniTime: null,
 	wheelZoomCount: 0,
+	event_log : [],
+	_recordEvents : false,
+
+	clearEventLog : function(){
+		this.event_log = [];
+	}, 
+
+	recordEvents : function( record ){
+		this._recordEvents = record;
+		this.clearEventLog();
+	},
 	
+	replayEvents : function( log ){
+		var _this, l;
+
+		_this = $(this);
+		log = (log || this.event_log || []).slice(0).reverse();
+		l = log.length;
+
+		while(l--){
+			_this.trigger(log[l]);
+		}
+
+	}, 
+
 	handleEvent: function (e) {
 		var that = this;
+	
+		if(this._recordEvents && e.type !== 'mouseout'){
+			this.event_log.push({
+				type : e.type, 
+				pageX : e.pageX, 
+				pageY : e.pageY, 
+				x : e.x, 
+				y : e.y, 
+				clientX : e.clientX,
+				clientY : e.clientY
+			});
+		}
+
 		switch(e.type) {
 			case START_EV:
 				if (!hasTouch && e.button !== 0) return;
