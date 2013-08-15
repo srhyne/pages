@@ -680,6 +680,8 @@ iScroll.prototype = {
 		if ('wheelDeltaX' in e) {
 			wheelDeltaX = e.wheelDeltaX / 12;
 			wheelDeltaY = e.wheelDeltaY / 12;
+		} else if('wheelDelta' in e) {
+			wheelDeltaX = wheelDeltaY = e.wheelDelta / 12;
 		} else if ('detail' in e) {
 			if (e.axis === 2) { // Vertical
 				wheelDeltaY = -e.detail * 3;
@@ -689,7 +691,7 @@ iScroll.prototype = {
 				wheelDeltaY = 0;
 			}
 		} else {
-			wheelDeltaX = wheelDeltaY = -e.wheelDelta / 12;
+			return;
 		}
 		
 		if (that.options.wheelAction == 'zoom') {
