@@ -3,29 +3,13 @@
   var $ = GLOBAL.jQuery;
   var modernizr = GLOBAL.Modernizr;
 
-  function hasTouch(){
-    var bool, hasDocTouch, query;
-
-    hasDocTouch = window.DocumentTouch && document instanceof DocumentTouch;
-
-    if( ('ontouchstart' in window) || hasDocTouch){
-      return true;
-    } 
-
-    query = ['@media (', prefixes.join('touch-enabled),('),'heartz',')','{#modernizr{top:9px;position:absolute}}'].join('');
-    testStyles(query, function( node ) {
-      bool = node.offsetTop === 9;
-    });
-    return bool;
-  }
-
-  //this is an override of Modernizr.touch test! This is used to 
+  //this is a custom test for of Modernizr.touch test! This is used to 
   //remove the touch detection on windows 8 laptops that use both
   //touch & mouse events (the pointer events)
   //see http://www.html5rocks.com/en/mobile/touchandmouse/
   
   //in Modernzir 3 this is 'touchevents'
-  modernizr.addTest('touch', function() {
+  modernizr.addTest('touchy', function() {
   
     //note this will be falsey I think on /windows phone/ user agent!
     var is_windows = (/win/i).test(window.navigator.platform);
@@ -34,7 +18,7 @@
       return false;
     }
 
-    return hasTouch();
+    return modernizr.touch;
   });
   
   
@@ -137,7 +121,7 @@
     var nav, _moved, _start, _end;
 
 
-    if( !Modernizr.touch ){
+    if( !Modernizr.touchy ){
       return this.on('click', selector, cb);
     }
 
