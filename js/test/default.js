@@ -1880,8 +1880,9 @@ var m = Math,
     isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
 
     has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix(),
-    hasTouch = (Modernizr && Modernizr.touchy) || 
-    					 ('ontouchstart' in window && !isTouchPad),
+    hasTouch = (Modernizr && Modernizr.touchy !== undefined)
+    						? Modernizr.touchy
+    						: ('ontouchstart' in window && !isTouchPad),
     hasTransform = vendor + 'Transform' in document.documentElement.style,
     hasTransitionEnd = isIDevice || isPlaybook,
 
