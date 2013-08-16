@@ -106,7 +106,7 @@
   			_this[classMethod+"Class"]('closed').removeClass('sliding');
     	});
        */
-  };
+    };
   
   
     this
@@ -115,7 +115,23 @@
       .on('touchend', _selector, end);
   };
   
-  
+
+  /**
+   * Testing helper method, 
+   * trigger the desired click or test method
+   * 
+   * @param  {[bool]} Override Modernizr
+   */
+  $.fn.tapIt = function(useClick){
+    
+    if(useClick || !Modernizr.touchy){
+      return this.trigger('click');
+    }
+
+    return this.trigger('touchstart').trigger('touchend');
+  };
+
+
   $.fn.tap = function(selector, cb){
     
     var nav, _moved, _start, _end;
