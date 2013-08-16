@@ -1858,10 +1858,14 @@ Changelog:
  * iScroll v4.1.9 ~ Copyright (c) 2011 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
  *
+ * CUSTOM MODIFICATIONS! DO NOT JUST REPLACE!
+ * 
  * Modified by Stephen Rhyne
- * 	Added a way to mock up a scroll event list for easier testing in Jasmine
+ * 
+ * 	- Added a way to mock up a scroll event list for easier testing in Jasmine
+ * 	- Importing modernizr for tests! 8/15
  */
-(function(){
+(function(Modernizr){
 var m = Math,
 	mround = function (r) { return r >> 0; },
 	vendor = (/webkit/i).test(navigator.appVersion) ? 'webkit' :
@@ -1876,7 +1880,8 @@ var m = Math,
     isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
 
     has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix(),
-    hasTouch = 'ontouchstart' in window && !isTouchPad,
+    hasTouch = (Modernizr && Modernizr.touchy) || 
+    					 ('ontouchstart' in window && !isTouchPad),
     hasTransform = vendor + 'Transform' in document.documentElement.style,
     hasTransitionEnd = isIDevice || isPlaybook,
 
@@ -3000,7 +3005,7 @@ iScroll.prototype = {
 if (typeof exports !== 'undefined') exports.iScroll = iScroll;
 else window.iScroll = iScroll;
 
-})();
+})(Modernizr);
 
 /*!
 * Bootstrap.js by @fat & @mdo
