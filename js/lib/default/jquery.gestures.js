@@ -3,24 +3,6 @@
   var $ = GLOBAL.jQuery;
   var modernizr = GLOBAL.Modernizr;
 
-  //this is a custom test for of Modernizr.touch test! This is used to 
-  //remove the touch detection on windows 8 laptops that use both
-  //touch & mouse events (the pointer events)
-  //see http://www.html5rocks.com/en/mobile/touchandmouse/
-  
-  //in Modernzir 3 this is 'touchevents'
-  modernizr.addTest('touchy', function() {
-  
-    //note this will be falsey I think on /windows phone/ user agent!
-    var is_windows = (/win/i).test(window.navigator.platform);
-    
-    if( is_windows ){
-      return false;
-    }
-
-    return modernizr.touch;
-  });
-  
   
   $.fn.swipe = function(selector, cb){ 
     var _selector, _page, offset, start, move, end;

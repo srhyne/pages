@@ -44,7 +44,15 @@ Usage (exactly the same as it would be normally):
 	});
 
 Changelog:
+
 	1.02.CUSTOM BY Stephen Rhyne
+	
+
+		- Relying on Modernizr to decide whether or not to use transitions and transforms!
+			this allowed for easier testing of ie9
+		- User Modernizr.prefixed to select ONLY the necassary events & properties	
+
+		- There's another change check blame
 
 	1.02 (8/5/2013):
 		- Fixing use3D default flags. It must explicitly be set to false to disable 3d now, the plugin by default will use it if available.
@@ -233,7 +241,7 @@ Changelog:
 		- Less need for leaveTransforms = true due to better position detections
 */
 
-(function(jQuery, originalAnimateMethod, originalStopMethod) {
+(function(jQuery, originalAnimateMethod, originalStopMethod, Modernizr) {
 
 	// ----------
 	// Plugin variables
@@ -269,14 +277,17 @@ Changelog:
 	// ----------
 	// Check if this browser supports CSS3 transitions
 	// ----------
-	var thisBody = document.body || document.documentElement,
-		thisStyle = thisBody.style,
-		transitionEndEvent = 'webkitTransitionEnd oTransitionEnd transitionend',
-		cssTransitionsSupported = thisStyle.WebkitTransition !== undefined || thisStyle.MozTransition !== undefined || thisStyle.OTransition !== undefined || thisStyle.transition !== undefined,
-		has3D = ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix()),
+	var transEndEventNames = {
+    	'WebkitTransition' : 'webkitTransitionEnd',
+    	'MozTransition'    : 'transitionend',
+    	'OTransition'      : 'oTransitionEnd',
+    	'msTransition'     : 'MSTransitionEnd',
+    	'transition'       : 'transitionend'
+		},
+		transitionEndEvent = transEndEventNames[ Modernizr.prefixed('transition') ];
+		cssTransitionsSupported = Modernizr.csstransitions;
+		has3D = Modernizr.csstransforms3d;
 		use3DByDefault = has3D;
-
-
 
 	// ----------
 	// Extended :animated filter
@@ -287,7 +298,6 @@ Changelog:
 			return jQuery(elem).data('events') && jQuery(elem).data('events')[transitionEndEvent] ? true : originalAnimatedFilter.call(this, elem);
 		};
 	}
-
 
 	/**
 		@private
@@ -437,30 +447,32 @@ Changelog:
 		var meta = cssProperties.meta,
 			original = cssProperties.original,
 			properties = cssProperties.properties,
-			secondary = cssProperties.secondary;
+			secondary = cssProperties.secondary, 
+			prefixes = Modernizr.prefixedAttrs(
+				'transitionProperty', 'transitionDuration', 'transitionTimingFunction', 'transform'
+			), 
+			tp = prefixes[0],
+			td = prefixes[1], 
+			tf = prefixes[2];
 
-		for (var i = cssPrefixes.length - 1; i >= 0; i--) {
-			var tp = cssPrefixes[i] + 'transition-property',
-				td = cssPrefixes[i] + 'transition-duration',
-				tf = cssPrefixes[i] + 'transition-timing-function';
-
-			property = (transform ? cssPrefixes[i] + 'transform' : property);
-
-			if (saveOriginal) {
+			//scope ok here?
+		property = transform ? prefixes[3] : property;
+		
+		if (saveOriginal) {
 				original[tp] = e.css(tp) || '';
 				original[td] = e.css(td) || '';
 				original[tf] = e.css(tf) || '';
-			}
-
-			secondary[property] = transform ? _getTranslation(meta.left, meta.top, use3D) : value;
-
-			properties[tp] = (properties[tp] ? properties[tp] + ',' : '') + property;
-			properties[td] = (properties[td] ? properties[td] + ',' : '') + duration + 'ms';
-			properties[tf] = (properties[tf] ? properties[tf] + ',' : '') + easing;
 		}
+
+		secondary[property] = transform ? _getTranslation(meta.left, meta.top, use3D) : value;
+
+		properties[tp] = (properties[tp] ? properties[tp] + ',' : '') + property;
+		properties[td] = (properties[td] ? properties[td] + ',' : '') + duration + 'ms';
+		properties[tf] = (properties[tf] ? properties[tf] + ',' : '') + easing;
 
 		return cssProperties;
 	}
+
 
 	/**
 		@private
@@ -601,31 +613,28 @@ Changelog:
 		@description Get current X and Y translations
 	*/
 	jQuery.fn.translation = function() {
+		var elem, cStyle, translation, transform, explodedMatrix;
+
 		if (!this[0]) {
 			return null;
 		}
 
-		var	elem = this[0],
-			cStyle = window.getComputedStyle(elem, null),
-			translation = {
-				x: 0,
-				y: 0
-			};
+		elem = this[0];
+		cStyle = window.getComputedStyle(elem, null);
+		translation = { x: 0, y: 0 };
 
 		if (cStyle) {
-			for (var i = cssPrefixes.length - 1; i >= 0; i--) {
-				var transform = cStyle.getPropertyValue(cssPrefixes[i] + 'transform');
-				if (transform && (/matrix/i).test(transform)) {
-					var explodedMatrix = transform.replace(/^matrix\(/i, '').split(/, |\)$/g);
-					translation = {
-						x: parseInt(explodedMatrix[4], 10),
-						y: parseInt(explodedMatrix[5], 10)
-					};
+			transform = cStyle.getPropertyValue( Modernizr.prefixed('transform') );
+			if (transform && (/matrix/i).test(transform)) {
+				explodedMatrix = transform.replace(/^matrix\(/i, '').split(/, |\)$/g);
+				translation = {
+					x: parseInt(explodedMatrix[4], 10),
+					y: parseInt(explodedMatrix[5], 10)
+				};
+				return translation;
+			}//end if
 
-					break;
-				}
-			}
-		}
+		}//end if
 
 		return translation;
 	};
@@ -884,4 +893,4 @@ Changelog:
 
 		return this;
 	};
-})(jQuery, jQuery.fn.animate, jQuery.fn.stop);
+})(jQuery, jQuery.fn.animate, jQuery.fn.stop, Modernizr);

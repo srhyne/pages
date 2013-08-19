@@ -1,4 +1,4 @@
-;(function($){
+;(function($, Modernizr){
 	
 	//option obj, $ window, "div."+ns
 	var _opts, _window, _content, selector, currentPage, useiScroll,
@@ -480,42 +480,43 @@
 		_all().each(cb);
 	}
 
-  /**
+	/**
    * Creates a first style setting
    * for slides & starting position when hitting add.
    * @return {[type]} [description]
    */
   function getTransformStyle () {
-  	var agent;
+  	var agent, translate;
 
 		agent = navigator.userAgent.toLowerCase();
 		
-		if( /msie/.test(agent) && !/opera/.test(agent) ){
+		//no transitions then just use left/right
+		if(!Modernizr.csstransitions || !Modernizr.csstransforms){
 			return function( x ){
 				return { 'left' : x };
 			};
 		}
 
 
-		if(/webkit/.test(agent)){
-			return function(x){
-				return { '-webkit-transform' : 'translate3d('+x+'px, 0, 0)' };
-			};
-		}
+		return function(x){
+			var styles, transformAttr, translate;
 
-		if(/mozilla/.test(agent)){
-			return function(x){
-				return { "-moz-transform" : 'translate('+x+'px, 0)' };
-			};
-		}
+			//setup a return style object
+			styles = {};
+			//setup the prefixed style attribute key
+			transformAttr = Modernizr.prefixedAttrs('transform');
 
-		//otherwise return left & right style for regular animation
-		return function( x ){
-			return { 'left' : x };
+			//create the style values
+			translate = 'translate';
+			translate += Modernizr.csstransforms3d
+										? '3d('+ x +'px, 0, 0)'
+										: '('+ x +'px, 0)';
+			styles[transformAttr] = translate;
+
+			return styles;
 		};
 
   }
-	
 
 	$.fn.slide = function slide(x, css){
 		var styles;
@@ -581,4 +582,4 @@
 	};
 	
 	
-})(window.jQuery);
+})(window.jQuery, window.Modernizr);

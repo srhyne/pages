@@ -5,6 +5,7 @@ module.exports = function(grunt){
   _defaults = [
   'jquery.event.fastfix.js',
    'modernizr.min.js', 
+   'modernizr.helpers.js',
    'tiny-pubsub.js', 
    'tmpl.js', 
    'jquery.gestures.js',
