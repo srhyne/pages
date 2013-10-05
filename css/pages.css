@@ -187,6 +187,7 @@ div {
 }
 html.overflowscrolling .scroller {
   -webkit-overflow-scrolling: touch;
+  overflow: auto;
 }
 html.overflowscrolling .scroller > * {
   -webkit-transform: translatez(0px);
