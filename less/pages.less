@@ -145,9 +145,14 @@ div{
 	border : none;	
 	height:100%;
 	width : 50%;
-  -webkit-transform: translate3d(0px,0px,0px);
-  -webkit-perspective : 1000;
+
+  .transform(translate3d(0px,0px,0px));
+  .perspective(1000);
+
   -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility:   hidden;
   
 	div.page-content{
 	  overflow-x:hidden;
