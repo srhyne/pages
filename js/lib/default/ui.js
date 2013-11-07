@@ -27,7 +27,7 @@
 		
 		//export do
     $.pages.dom = dom;
-    $.publish('pages.init');
+    $.publish('init.pages');
   }
   
   

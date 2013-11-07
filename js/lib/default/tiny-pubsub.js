@@ -14,4 +14,8 @@
     o.trigger.apply(o, arguments);
   };
 
-}(jQuery));
+  $.subscriptions = function(){
+    return o.data('events');
+  }
+
+}(jQuery)); 

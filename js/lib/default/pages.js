@@ -167,7 +167,7 @@
 		// console.log('pages', _pages);
 
 		o.timer = setTimeout(function(){
-    	$.publish( ns + '.opening', [ _pages ] );    
+			publish('opening', _pages);
     }, 1);
 
 		o._this = null;					
@@ -276,9 +276,13 @@
 		return new Date().getTime(); 
 	}
 	
+	function publish (e, data) {
+		$.publish(e + '.' + ns, [data]);
+	}
+
+
 	//@param el $ object or html that's being i	nserted into the new page
 	// this in callback refers to the el being added NOT .page (TODO change this?)
-	
 
 	/**
 	 * THE function for adding pages to the dom
@@ -368,11 +372,11 @@
 		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
 		  	}
 		  }
-		  $.publish(ns + '.opened', [_page]);
+		  publish('opened', _page);
       return typeof callback === 'function' && callback.call(_el);
 		});
 		
-		$.publish(ns + '.opening', [ _page ]);
+		publish('opening', _page);
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	}
