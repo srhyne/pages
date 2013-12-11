@@ -1552,12 +1552,20 @@ Changelog:
 
 	/**
 	 * THE function for adding pages to the dom
-	 * @param {[type]}   el           [description]
-	 * @param {[type]}   name         [description]
-	 * @param {Function} callback     [description]
-	 * @param {[type]}   extraClasses [description]
+	 * @param {Mixed}   el     Object, DOM element, or string html
+	 * @param {String}   name  string name of page, for querying
+	 *                         This is sort of a bad name for this param
+	 *                         because it's usually the fragment of the
+	 *                         route the page belongs to
+	 *                         
+	 * @param {Function} callback  executed after page animation
+	 * @param {String}   extraClasses list of extra classes to add to page
+	 * @param {String}   title would really be best passed in an Object
+	 *                         with name but the use of title is new
+	 *                         this is a bit of meta-data that is used
+	 *                         to show a menu title in the UI 
 	 */
-	function add(el, name, callback, extraClasses){
+	function add(el, name, callback, extraClasses, title){
 		var _el, w, pages, pageCount, lastPage,
 		    container, singlePage, offset, _anim, 
 		    pageContent, _page;
@@ -1608,7 +1616,8 @@ Changelog:
 		$.data(_page[0], {
 			pages : { 
 				offset : singlePage ? 0 : offset,  
-				name : name === undefined ? (ns + "_" + pageCount) : name
+				name : name === undefined ? (ns + "_" + pageCount) : name,
+				title : title || ''
 			}
 		});
 
@@ -1639,7 +1648,7 @@ Changelog:
 		  	}
 		  }
 		  publish('opened', _page);
-      return typeof callback === 'function' && callback.call(_el);
+      return typeof callback === 'function' && callback.call(_el, _page);
 		});
 		
 		publish('opening', _page);
@@ -1698,18 +1707,88 @@ Changelog:
 	 * @param div element page NOT jquery wrapped.
 	 * @return string page name
 	 */
-	function getName (page) {
-		var data;
+	function getName (page, index) {
 
 		if(!page){
 			return false;
 		}
 
-		page = page instanceof jQuery ? page[0] : page;
-
-		data = $.data(page, ns) || {};
-		return (data.name === undefined) ? (ns + "_" + i) : data.name;
+		return _getDataKey(page, 'name', ns + "_" + ( index || t() ) );
 	}
+
+	/**
+	 * get a data key bound to the jQuery.data(ns)
+	 * @param  {String} key     the data key
+	 * @param  {Mixed} default value if no key value foudn
+	 * @return {Mixed} either data.key or default value;
+	 */
+	function _getDataKey (page, key, _default) {
+		var data;
+
+		data = _getData(page);
+
+		return (data[key] === undefined) ? _default : data[key];
+	}
+
+	/**
+	 * get the namespace data on a page
+	 * @param  {Object} page DOM div or jQuery instace
+	 * @return {Object} dictionary of values
+	 */
+	function _getData (page) {
+		var data = {};
+
+		page = is_jQuery(page) ? page[0] : page;
+
+		if(!page){
+			return data;
+		}
+
+		return $.data(page, ns) || data;
+	}
+
+	/**
+	 * simple test to whether or not a variable
+	 * is a jQuery instance
+	 * @param  {Object}  el  DOM element or jQuery collection
+	 * @return {Boolean}    [description]
+	 */
+	function is_jQuery(el) {
+  	return (el instanceof jQuery);
+  }
+
+  /**
+   * set the title of the page,
+   * which can be used in the UI to change
+   * the window or nav title
+   * @param {Mixed} page  selector or page jQuery instance
+   * @param {$.pages} returns this
+   */
+  function setTitle (page, title) {
+  	
+  	find(page, function(){
+  		_getData(page).title = title;
+  	});
+
+  	return $[ns];
+  }
+
+  /**
+   * set the title of the page,
+   * which can be used in the UI to change
+   * the window or nav title
+   * @param {Mixed} page  selector or page jQuery instance
+   * @return {String} pages string
+   */
+  function getTitle (page) {
+  	var t;
+
+  	find(page, function(){
+  		t = _getDataKey(this, 'title', '');
+  	});
+
+  	return t;
+  }
 
 	/**
 	 * get the routes/names of each page
@@ -1718,8 +1797,8 @@ Changelog:
 	function names(){
 		var _names = [];
 
-		_all().each( function(){
-			_names.push( getName(this) );
+		_all().each( function(i){
+			_names.push( getName(this, i) );
 		});
 		
 		return _names;
@@ -1788,6 +1867,7 @@ Changelog:
 
   }
 
+
 	$.fn.slide = function slide(x, css){
 		var styles;
 
@@ -1840,7 +1920,9 @@ Changelog:
 		name : getName,
 		has : has, 
 		isSinglePage : isSinglePage, 
-		promote : promote
+		promote : promote, 
+		getTitle : getTitle,
+		setTitle : setTitle
 	};
 
 	$[ns] = function( method ) {
