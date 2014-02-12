@@ -239,8 +239,11 @@
 	 * the page should be in a single or two page layout
 	 * @return {Boolean} [description]
 	 */
-	function isSinglePage(){
-    return (_window.width() <= _opts.twoPageMinWidth ? true : false);    
+	function isSinglePage(repaint){
+		var self = isSinglePage;
+		self._width = (!self._width || repaint) ? _window.width() : self._width;
+
+    return (self._width <= _opts.twoPageMinWidth ? true : false);    
   }
   
   /**
@@ -258,7 +261,7 @@
 	  
     pages.filter(':not(.closed)').updateX();
     
-    if( isSinglePage() ){
+    if( isSinglePage(true) ){
       return _open.call( pages.last() );
     }
     
