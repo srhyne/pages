@@ -1327,7 +1327,10 @@ Changelog:
 
 		//todo is this going to be slow?
 		pagesToUpdate.each(function(){
-			var bucket = this.getBoundingClientRect().left === 0 ? isAnimLeft : animLeft;
+			var left, bucket;
+
+			left = this.getBoundingClientRect().left;
+			bucket =  left === 0 ? isAnimLeft : animLeft;
 			bucket.push(this);
 		});
 

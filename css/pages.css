@@ -143,14 +143,11 @@ div {
   width: 100%;
 }
 .page > .page {
-  border-left: 1px solid grey;
+  box-shadow: inset 1px 1px 0 #ccc;
   width: 100%;
 }
 .page > .page.expanded {
   width: 200%;
-}
-.page > .page.sliding {
-  border-left: 1px solid grey !important;
 }
 .page table {
   margin-bottom: 0px;
