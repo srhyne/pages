@@ -8,6 +8,8 @@
  * 
  * 	- Added a way to mock up a scroll event list for easier testing in Jasmine
  * 	- Importing modernizr for tests! 8/15
+ * 	- Fixed wheel event for firefox/IE8+ 8/14/2013
+ * 	- Disabled wheel event on option 2/26/2014
  */
 (function(Modernizr){
 var m = Math,
@@ -681,6 +683,10 @@ iScroll.prototype = {
 			deltaX, deltaY,
 			deltaScale;
 
+		if($(e.target).is('option')) {
+			return;
+		}
+		
 		e.preventDefault();
 		
 		if ('wheelDeltaX' in e) {
