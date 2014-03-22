@@ -372,7 +372,7 @@
 
 		  scrollers = _el.find('.scroller');
 		  scrollSettings = { 
-		  	vScrollbar : true, 
+		  	vScrollbar : false, 
 		  	onBeforeScrollStart : _onBeforeScrollStart
 		  };
 		  _iScroll = iScroll;
