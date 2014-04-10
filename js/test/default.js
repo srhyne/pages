@@ -1995,6 +1995,7 @@ Changelog:
         if(w === _w){
           return true;
         }
+        $.publish('repaint.app');
         return $.pages('repaint');
       }, 200);
 
