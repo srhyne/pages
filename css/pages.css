@@ -152,9 +152,6 @@ div {
 .page table {
   margin-bottom: 0px;
 }
-.page table  + table {
-  border-top: 1px dashed rgba(0, 0, 0, 0.5);
-}
 .page .tab-content.scroller {
   position: absolute;
   top: 60px;
