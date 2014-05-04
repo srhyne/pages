@@ -488,6 +488,19 @@
 	}
 
 	/**
+   * set data key & value to the page
+   * @param {Mixed} page  page selector
+   * @param {string} key the ns for the pages dom data
+   * @param {mixed} value the value for the data.key = 
+   */
+  function _setData (page, key, value) {
+  	find(page, function(){
+  		_getData(this)[key] = value;
+  	});
+  	return $[ns];
+  }
+
+	/**
 	 * simple test to whether or not a variable
 	 * is a jQuery instance
 	 * @param  {Object}  el  DOM element or jQuery collection
@@ -505,12 +518,7 @@
    * @param {$.pages} returns this
    */
   function setTitle (page, title) {
-  	
-  	find(page, function(){
-  		_getData(page).title = title;
-  	});
-
-  	return $[ns];
+  	return _setData(page, 'title', title);
   }
 
   /**
@@ -525,6 +533,33 @@
 
   	find(page, function(){
   		t = _getDataKey(this, 'title', '');
+  	});
+
+  	return t;
+  }
+
+  /**
+   * set whether or not a page if fully loaded
+   * with the correct module data.. 
+   * @param {[type]} page [description]
+   * @param {[type]} flag [description]
+   */
+  function setLoaded (page, flag) {
+  	return _setData(page, 'loaded', flag);
+  }
+
+	/**
+   * set whether the page is loaded or not
+   * which can be used in the UI to change
+   * the window or nav title
+   * @param {Mixed} page  selector or page jQuery instance
+   * @return {String} pages string
+   */
+  function getLoaded (page) {
+  	var t;
+
+  	find(page, function(){
+  		t = _getDataKey(this, 'loaded', false);
   	});
 
   	return t;
@@ -662,7 +697,9 @@
 		isSinglePage : isSinglePage, 
 		promote : promote, 
 		getTitle : getTitle,
-		setTitle : setTitle
+		setTitle : setTitle,
+		getLoaded : getLoaded,
+		setLoaded : setLoaded
 	};
 
 	$[ns] = function( method ) {
