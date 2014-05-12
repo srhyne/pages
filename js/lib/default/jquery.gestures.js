@@ -116,11 +116,17 @@
 
   $.fn.tap = function(selector, cb){
     
-    var nav, _moved, _start, _end;
+    var nav, _moved, _start, _end, ua;
 
+    ua = window.navigator.userAgent.toLowerCase();
 
-    if( !Modernizr.touchy ){
+    if( !Modernizr.touchy || (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1) ){
       return this.on('click', selector, cb);
+    }
+    
+    if(typeof selector === 'function' && !cb) {
+      cb = selector;
+      selector = '';
     }
 
     _moved = false;
