@@ -119,8 +119,10 @@
     var nav, _moved, _start, _end, ua;
 
     ua = window.navigator.userAgent.toLowerCase();
-
-    if( !Modernizr.touchy || (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1) ){
+    //android default browser is broken right now, I have to test if this is the issue
+    //|| (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1)
+    
+    if( !Modernizr.touchy){
       return this.on('click', selector, cb);
     }
     
