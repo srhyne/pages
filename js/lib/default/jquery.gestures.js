@@ -116,13 +116,12 @@
 
   $.fn.tap = function(selector, cb){
     
-    var nav, _moved, _start, _end, ua;
+    var nav, _moved, _start, _end, ua, androidChrome;
 
     ua = window.navigator.userAgent.toLowerCase();
-    //android default browser is broken right now, I have to test if this is the issue
-    //|| (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1)
+    androidChrome = (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1);
     
-    if( !Modernizr.touchy){
+    if( !Modernizr.touchy || androidChrome){
       return this.on('click', selector, cb);
     }
     
