@@ -401,7 +401,7 @@
   function _onBeforeScrollStart(e){
   	var _target = $(e.target);
   	
-  	if(_target.is(':input, [draggable], option')){
+  	if(_target.is(':input, [draggable], option') || _target.closest('[contenteditable]').size() > 0){
   		return false;
   	}
   	

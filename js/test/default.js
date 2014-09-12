@@ -331,11 +331,12 @@
 
   $.fn.tap = function(selector, cb){
     
-    var nav, _moved, _start, _end, ua;
+    var nav, _moved, _start, _end, ua, androidChrome;
 
     ua = window.navigator.userAgent.toLowerCase();
-
-    if( !Modernizr.touchy || (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1) ){
+    androidChrome = (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1);
+    
+    if( !Modernizr.touchy || androidChrome){
       return this.on('click', selector, cb);
     }
     
@@ -1673,7 +1674,7 @@ Changelog:
   function _onBeforeScrollStart(e){
   	var _target = $(e.target);
   	
-  	if(_target.is(':input, [draggable], option')){
+  	if(_target.is(':input, [draggable], option') || _target.closest('[contenteditable]').size() > 0){
   		return false;
   	}
   	
