@@ -207,7 +207,7 @@ html.no-touch body::-webkit-scrollbar {
 }
 html.no-touch div.page-content::-webkit-scrollbar,
 html.no-touch .scroller::-webkit-scrollbar {
-  width: 0px;
+  width: 10px;
   height: 100%;
 }
 html.no-touch div.page-content::-webkit-scrollbar-thumb,

@@ -232,7 +232,8 @@
   		return Modernizr.testAllProps("overflowScrolling");
 		});	
 
-		useiScroll = (!Modernizr.overflowscrolling && iScroll);
+		//it's loaded, we are mobile and we have no overflow scrolling system
+		useiScroll = iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
 
 		return $[ns];
 	}

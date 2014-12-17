@@ -1505,7 +1505,7 @@ Changelog:
   		return Modernizr.testAllProps("overflowScrolling");
 		});	
 
-		useiScroll = (!Modernizr.overflowscrolling && iScroll);
+		useiScroll = false; //(!Modernizr.overflowscrolling && iScroll);
 
 		return $[ns];
 	}
