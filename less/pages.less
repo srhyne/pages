@@ -4,6 +4,14 @@
 html, body{
   padding:0!important;
   margin:0!important;
+  
+  scrollbar-face-color: #c2c2c2;  
+  scrollbar-shadow-color: #dbdbdb;  
+  scrollbar-highlight-color:#dbdbdb;  
+  scrollbar-3dlight-color: #dbdbdb;  
+  scrollbar-darkshadow-color: #dbdbdb;  
+  scrollbar-track-color: #dbdbdb;  
+  scrollbar-arrow-color: #dbdbdb;
 }
 
 
@@ -281,23 +289,50 @@ html.no-touch{
     height:0px;
   }
 
-   div.page-content, .scroller{
-
-       &::-webkit-scrollbar{
-          width: 10px;
-          height:100%;
-        }
-
-        &::-webkit-scrollbar-thumb{
-          background:rgba(0,0,0,.2);
-          -webkit-box-shadow:0px 1px 2px rgba(0,0,0,.1);
-          border:1px solid rgba(0,0,0,.1);
-        }
+  div.page-content, .scroller{
+    
+    &::-webkit-scrollbar{
+      height:7px;
+      width:7px;
     }
-   
-
+    &::-webkit-scrollbar-button:start:decrement, &::-webkit-scrollbar-button:end:increment{
+      background:transparent;
+      display:none;
+    }
+    &::-webkit-scrollbar-track-piece{
+      background:#dbdbdb;
+    }
+    &::-webkit-scrollbar-track-piece:vertical:start{
+      border-top-left-radius:5px;
+      border-top-right-radius:5px;
+      border-bottom-right-radius:0;
+      border-bottom-left-radius:0;
+    }
+    &::-webkit-scrollbar-track-piece:vertical:end{
+      border-top-left-radius:0;
+      border-top-right-radius:0;
+      border-bottom-right-radius:5px;
+      border-bottom-left-radius:5px;
+    }
+    &::-webkit-scrollbar-track-piece:horizontal:start{
+      border-top-left-radius:5px;
+      border-top-right-radius:0;
+      border-bottom-right-radius:0;
+      border-bottom-left-radius:5px;
+    }
+    &::-webkit-scrollbar-track-piece:horizontal:end{
+      border-top-left-radius:0;
+      border-top-right-radius:5px;
+      border-bottom-right-radius:5px;
+      border-bottom-left-radius:0;
+    }
+    &::-webkit-scrollbar-thumb:vertical, &::-webkit-scrollbar-thumb:horizontal{
+      background:#c2c2c2;
+      border-radius:5px;
+      display:block;
+      height:50px;
+    }
+  }
+  
 }
-
-
-
 
