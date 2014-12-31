@@ -13,12 +13,12 @@ body {
   padding: 0!important;
   margin: 0!important;
   scrollbar-face-color: #c2c2c2;
-  scrollbar-shadow-color: #dbdbdb;
-  scrollbar-highlight-color: #dbdbdb;
-  scrollbar-3dlight-color: #dbdbdb;
-  scrollbar-darkshadow-color: #dbdbdb;
-  scrollbar-track-color: #dbdbdb;
-  scrollbar-arrow-color: #dbdbdb;
+  scrollbar-shadow-color: transparent;
+  scrollbar-highlight-color: transparent;
+  scrollbar-3dlight-color: transparent;
+  scrollbar-darkshadow-color: transparent;
+  scrollbar-track-color: transparent;
+  scrollbar-arrow-color: transparent;
 }
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -196,6 +196,9 @@ div {
     left: 0px;
   }
 }
+.scroller {
+  overflow-y: auto;
+}
 html.overflowscrolling .scroller {
   -webkit-overflow-scrolling: touch;
   overflow: auto;
@@ -203,63 +206,53 @@ html.overflowscrolling .scroller {
 html.overflowscrolling .scroller > * {
   -webkit-transform: translateZ(0px);
 }
-html.no-touch [data-page]:hover td,
-html.no-touch [data-page]:hover th {
+html.windows [data-page]:hover td,
+html.windows [data-page]:hover th {
   background-color: #FDF6E3 !important;
   cursor: pointer;
 }
-html.no-touch body::-webkit-scrollbar {
+html.windows body::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
-html.no-touch div.page-content::-webkit-scrollbar,
-html.no-touch .scroller::-webkit-scrollbar {
+html.windows .scroller::-webkit-scrollbar {
   height: 7px;
   width: 7px;
 }
-html.no-touch div.page-content::-webkit-scrollbar-button:start:decrement,
-html.no-touch .scroller::-webkit-scrollbar-button:start:decrement,
-html.no-touch div.page-content::-webkit-scrollbar-button:end:increment,
-html.no-touch .scroller::-webkit-scrollbar-button:end:increment {
+html.windows .scroller::-webkit-scrollbar-button:start:decrement,
+html.windows .scroller::-webkit-scrollbar-button:end:increment {
   background: transparent;
   display: none;
 }
-html.no-touch div.page-content::-webkit-scrollbar-track-piece,
-html.no-touch .scroller::-webkit-scrollbar-track-piece {
-  background: #dbdbdb;
+html.windows .scroller::-webkit-scrollbar-track-piece {
+  background: transparent;
 }
-html.no-touch div.page-content::-webkit-scrollbar-track-piece:vertical:start,
-html.no-touch .scroller::-webkit-scrollbar-track-piece:vertical:start {
+html.windows .scroller::-webkit-scrollbar-track-piece:vertical:start {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-html.no-touch div.page-content::-webkit-scrollbar-track-piece:vertical:end,
-html.no-touch .scroller::-webkit-scrollbar-track-piece:vertical:end {
+html.windows .scroller::-webkit-scrollbar-track-piece:vertical:end {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-html.no-touch div.page-content::-webkit-scrollbar-track-piece:horizontal:start,
-html.no-touch .scroller::-webkit-scrollbar-track-piece:horizontal:start {
+html.windows .scroller::-webkit-scrollbar-track-piece:horizontal:start {
   border-top-left-radius: 5px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 5px;
 }
-html.no-touch div.page-content::-webkit-scrollbar-track-piece:horizontal:end,
-html.no-touch .scroller::-webkit-scrollbar-track-piece:horizontal:end {
+html.windows .scroller::-webkit-scrollbar-track-piece:horizontal:end {
   border-top-left-radius: 0;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 0;
 }
-html.no-touch div.page-content::-webkit-scrollbar-thumb:vertical,
-html.no-touch .scroller::-webkit-scrollbar-thumb:vertical,
-html.no-touch div.page-content::-webkit-scrollbar-thumb:horizontal,
-html.no-touch .scroller::-webkit-scrollbar-thumb:horizontal {
+html.windows .scroller::-webkit-scrollbar-thumb:vertical,
+html.windows .scroller::-webkit-scrollbar-thumb:horizontal {
   background: #c2c2c2;
   border-radius: 5px;
   display: block;

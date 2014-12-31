@@ -5,15 +5,15 @@ html, body{
   padding:0!important;
   margin:0!important;
   
+  //ie?
   scrollbar-face-color: #c2c2c2;  
-  scrollbar-shadow-color: #dbdbdb;  
-  scrollbar-highlight-color:#dbdbdb;  
-  scrollbar-3dlight-color: #dbdbdb;  
-  scrollbar-darkshadow-color: #dbdbdb;  
-  scrollbar-track-color: #dbdbdb;  
-  scrollbar-arrow-color: #dbdbdb;
+  scrollbar-shadow-color: transparent;
+  scrollbar-highlight-color:transparent;  
+  scrollbar-3dlight-color: transparent;  
+  scrollbar-darkshadow-color: transparent;  
+  scrollbar-track-color: transparent;  
+  scrollbar-arrow-color: transparent;
 }
-
 
 *{
   -webkit-tap-highlight-color:rgba(0,0,0,0);
@@ -266,6 +266,9 @@ div{
    
 }
 
+.scroller{
+  overflow-y:auto;
+}
 
 html.overflowscrolling .scroller{
   -webkit-overflow-scrolling : touch;
@@ -276,7 +279,7 @@ html.overflowscrolling .scroller{
 }
 
 //desktop, stuff with no touch
-html.no-touch{
+html.windows{
   
   //TODO change this to anything descending from data-page? 
   [data-page]:hover td, [data-page]:hover th{
@@ -289,43 +292,50 @@ html.no-touch{
     height:0px;
   }
 
-  div.page-content, .scroller{
+  .scroller{
     
     &::-webkit-scrollbar{
       height:7px;
       width:7px;
     }
+
     &::-webkit-scrollbar-button:start:decrement, &::-webkit-scrollbar-button:end:increment{
       background:transparent;
       display:none;
     }
+
     &::-webkit-scrollbar-track-piece{
-      background:#dbdbdb;
+      background:transparent;
     }
+
     &::-webkit-scrollbar-track-piece:vertical:start{
       border-top-left-radius:5px;
       border-top-right-radius:5px;
       border-bottom-right-radius:0;
       border-bottom-left-radius:0;
     }
+
     &::-webkit-scrollbar-track-piece:vertical:end{
       border-top-left-radius:0;
       border-top-right-radius:0;
       border-bottom-right-radius:5px;
       border-bottom-left-radius:5px;
     }
+
     &::-webkit-scrollbar-track-piece:horizontal:start{
       border-top-left-radius:5px;
       border-top-right-radius:0;
       border-bottom-right-radius:0;
       border-bottom-left-radius:5px;
     }
+
     &::-webkit-scrollbar-track-piece:horizontal:end{
       border-top-left-radius:0;
       border-top-right-radius:5px;
       border-bottom-right-radius:5px;
       border-bottom-left-radius:0;
     }
+
     &::-webkit-scrollbar-thumb:vertical, &::-webkit-scrollbar-thumb:horizontal{
       background:#c2c2c2;
       border-radius:5px;

@@ -110,18 +110,21 @@
   //touch & mouse events (the pointer events)
   //see http://www.html5rocks.com/en/mobile/touchandmouse/
   
+  M.addTest('windows', function(){
+    return (/win/i).test(window.navigator.platform);
+  });
+
   //in Modernzir 3 this is 'touchevents'
   M.addTest('touchy', function() {
-  
-    //note this will be falsey I think on /windows phone/ user agent!
-    var is_windows = (/win/i).test(window.navigator.platform);
     
-    if( is_windows ){
+    if( M.windows ){
       return false;
     }
 
     return M.touch;
   });
+
+
 
   function hyphenate (str) {
     
