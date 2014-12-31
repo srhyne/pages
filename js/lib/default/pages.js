@@ -233,7 +233,7 @@
 		});	
 
 		//it's loaded, we are mobile and we have no overflow scrolling system
-		useiScroll = iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
+		useiScroll = canUseiScroll();
 
 		return $[ns];
 	}
@@ -372,20 +372,14 @@
 			var scrollers, scrollSettings, _iScroll;
 
 		  scrollers = _el.find('.scroller');
-		  scrollSettings = { 
-		  	vScrollbar : false, 
-		  	onBeforeScrollStart : _onBeforeScrollStart
-		  };
 		  _iScroll = iScroll;
 
 		  if(useiScroll){
 		  	if(scrollers[0]){
-		  		scrollers.each(function(){
-            _iScroll[ 'scroller-' + t() ] = new _iScroll(this, scrollSettings);
-          });
+          scrollers.useiScroll();
 		  	}
 		  	else if( extraClasses.indexOf('no-scrolling') === -1 ){
-		  		_iScroll[ 'default-' + t() ] = new _iScroll(pageContent[0], scrollSettings);
+          pageContent.useiScroll();
 		  	}
 		  }
 		  publish('opened', _page);
@@ -604,6 +598,10 @@
 	function each (cb) {
 		_all().each(cb);
 	}
+  
+  function canUseiScroll() {
+    return iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
+  }
 
 	/**
    * Creates a first style setting
@@ -666,11 +664,22 @@
     this.each(updateX.each);
     
     return this;
-  }
+  };
 
   $.fn.log = function(){
     console.log(this);
     return this;
+  };
+  
+  $.fn.useiScroll = function(options) {
+    options = _.extend({ 
+      vScrollbar : false, 
+      onBeforeScrollStart : _onBeforeScrollStart
+    }, options || {});
+    
+    return this.each(function() {
+      iScroll[ 'scroller-' + t() ] = new iScroll(this, options);
+    });
   };
 
   //:pages(name)
@@ -700,7 +709,8 @@
 		getTitle : getTitle,
 		setTitle : setTitle,
 		getLoaded : getLoaded,
-		setLoaded : setLoaded
+		setLoaded : setLoaded,
+    canUseiScroll: canUseiScroll
 	};
 
 	$[ns] = function( method ) {
