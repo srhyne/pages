@@ -333,9 +333,9 @@
 
 
   $.fn.tap = function(selector, cb){
-    
     var nav, _moved, _start, _end, ua, androidChrome;
 
+    //this should be cached?
     ua = window.navigator.userAgent.toLowerCase();
     androidChrome = (ua.indexOf('android') !== -1 && ua.indexOf('chrome') !== -1);
     
@@ -348,17 +348,38 @@
       selector = '';
     }
 
-    _moved = false;
     
     //TODO namespace this.. 
     this
     .on('touchstart.tappable', selector, function(e){
+      var orig = e.originalEvent.changedTouches[0];
+      _moved = {
+        x : orig.pageX,
+        y : orig.pageY,
+        diffX : 0,
+        diffY : 0
+      };
+      console.log('touchstart')
       _start = this;
     })
     .on('touchmove.tappable', selector, function(e){
-      _moved = true;
+      console.log('touchmove');
+      var orig = e.originalEvent.changedTouches[0];
+      _moved.diffX = _moved.x - orig.pageX;
+      _moved.diffY = _moved.y - orig.pageY;
+      // _moved = true;
     })
     .on('touchend.tappable', selector, function(e){
+      //for variance
+      var v = 25;
+
+      console.log('touchend', _moved, _start);
+
+      if( Math.abs(_moved.diffX) < v && Math.abs(_moved.diffY) < v ){
+        console.log('Did not move');
+        _moved = false;
+      }
+
       if(_moved === false && _start === this){
        cb.apply(this, arguments)  
       }
