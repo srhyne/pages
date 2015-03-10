@@ -347,9 +347,7 @@
       cb = selector;
       selector = '';
     }
-
     
-    //TODO namespace this.. 
     this
     .on('touchstart.tappable', selector, function(e){
       var orig = e.originalEvent.changedTouches[0];
@@ -359,11 +357,9 @@
         diffX : 0,
         diffY : 0
       };
-      console.log('touchstart')
       _start = this;
     })
     .on('touchmove.tappable', selector, function(e){
-      console.log('touchmove');
       var orig = e.originalEvent.changedTouches[0];
       _moved.diffX = _moved.x - orig.pageX;
       _moved.diffY = _moved.y - orig.pageY;
@@ -373,10 +369,7 @@
       //for variance
       var v = 25;
 
-      console.log('touchend', _moved, _start);
-
       if( Math.abs(_moved.diffX) < v && Math.abs(_moved.diffY) < v ){
-        console.log('Did not move');
         _moved = false;
       }
 
