@@ -381,9 +381,7 @@
 		  	else if( extraClasses.indexOf('no-scrolling') === -1 ){
           pageContent.useiScroll();
 		  	}
-		  } else {
-        _el.css('height', _el.height());
-      }
+		  }
 		  publish('opened', _page);
       return typeof callback === 'function' && callback.call(_el, _page);
 		});
