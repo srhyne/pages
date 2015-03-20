@@ -2073,13 +2073,13 @@ Changelog:
 
     });
 
-    dom.history.click(function(){
-      var html = "";
-      $.pages('names').forEach(function(name){
-        html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
-      });
-        dom.historyList.html(html);
-    });
+    // dom.history.click(function(){
+    //   var html = "";
+    //   $.pages('names').forEach(function(name){
+    //     html += "<li><a href='#' data-route='"+name+"'>"+name+"</a></li>";
+    //   });
+    //     dom.historyList.html(html);
+    // });
 
   }
   
