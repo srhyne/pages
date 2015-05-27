@@ -1493,7 +1493,14 @@ Changelog:
  	 * @return {[type]}              [description]
  	 */
 	function init(customOpts){
-		var og = window.location.origin + '/';
+		var loc, og;
+		loc = window.location;
+
+		if (!loc.origin) {
+  			loc.origin = loc.protocol + "//" + loc.hostname + (loc.port ? ':' + loc.port: '');
+		}
+
+		og = loc.origin + '/';
 
 		//set closure vars (See TOP);
 		_window = $(window);
