@@ -43,7 +43,7 @@
 			return original.fromElement === this.target ? original.toElement : original.fromElement;
 		},
 		metaKey : function (originalEvent) {
-			return originalEvent.ctrlKey;
+			return originalEvent ? originalEvent.ctrlKey : undefined;
 		},
 		which : function (original) {
 			return original.charCode != null ? original.charCode : original.keyCode;
