@@ -114,10 +114,20 @@
     return (/win/i).test(window.navigator.platform);
   });
 
+  M.addTest('chromeos', function(){
+    return (/CrOS/).test(window.navigator.userAgent);
+  });
+
   //in Modernzir 3 this is 'touchevents'
   M.addTest('touchy', function() {
-    
+
+    //we should probably remove this, what about windows phones? 
     if( M.windows ){
+      return false;
+    }
+
+    //if touchevent is present but so is mouseevent, go with mousevent
+    if(M.touch && M.chromeos && ('MouseEvent' in window)  ){
       return false;
     }
 
