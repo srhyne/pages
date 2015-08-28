@@ -1907,7 +1907,7 @@ Changelog:
 	}
   
   function canUseiScroll() {
-    return false;
+    return iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
   }
 
 	/**
@@ -2030,6 +2030,7 @@ Changelog:
 	
 	
 })(window.jQuery, window.Modernizr);
+
 !function(GLOBAL){
   var dom, $;
   

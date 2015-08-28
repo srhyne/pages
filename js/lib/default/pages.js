@@ -607,7 +607,7 @@
 	}
   
   function canUseiScroll() {
-    return false;
+    return iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
   }
 
 	/**
