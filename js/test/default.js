@@ -1907,7 +1907,7 @@ Changelog:
 	}
   
   function canUseiScroll() {
-    return iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
+    return false;
   }
 
 	/**
