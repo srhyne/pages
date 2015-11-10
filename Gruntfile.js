@@ -3,7 +3,7 @@ module.exports = function(grunt){
   var _defaults, _sans;
   
   _defaults = [
-  'jquery.event.fastfix.js',
+  // 'jquery.event.fastfix.js',
    'modernizr.min.js', 
    'modernizr.helpers.js',
    'tiny-pubsub.js', 
