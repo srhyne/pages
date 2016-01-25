@@ -59,14 +59,14 @@
 
       dir = offset.diffX >= 40 ? "forward" : offset.diffX <= -40 ? "back" : false;
 
-      if(dir){
-        return window.history[dir]();
-      }
 
-      return false;
+      // if(dir){
+      //   return window.history[dir]();
+      // }
 
-      /*
-       this was the old way but it would break the history system..
+      // return false;
+
+      
       _this = $(this);
       _anim = $.extend({}, {
   			  leaveTransforms : true,
@@ -87,7 +87,7 @@
   			//add or remove class depedning on direction	
   			_this[classMethod+"Class"]('closed').removeClass('sliding');
     	});
-       */
+
     };
   
   

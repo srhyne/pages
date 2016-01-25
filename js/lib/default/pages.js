@@ -233,7 +233,7 @@
 	  
 	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
 	  //to desktop.
-    // Modernizr.touch && _content.swipe(selector);
+    // Modernizr.touchy && _content.swipe(selector);
 		
 		Modernizr.addTest('overflowscrolling', function(){
   		return Modernizr.testAllProps("overflowScrolling");
@@ -681,7 +681,8 @@
   $.fn.useiScroll = function(options) {
     options = _.extend({ 
       vScrollbar : false, 
-      onBeforeScrollStart : _onBeforeScrollStart
+      onBeforeScrollStart : _onBeforeScrollStart,
+      bounce : false
     }, options || {});
     
     return this.each(function() {

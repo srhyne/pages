@@ -182,14 +182,14 @@
 
       dir = offset.diffX >= 40 ? "forward" : offset.diffX <= -40 ? "back" : false;
 
-      if(dir){
-        return window.history[dir]();
-      }
 
-      return false;
+      // if(dir){
+      //   return window.history[dir]();
+      // }
 
-      /*
-       this was the old way but it would break the history system..
+      // return false;
+
+      
       _this = $(this);
       _anim = $.extend({}, {
   			  leaveTransforms : true,
@@ -210,7 +210,7 @@
   			//add or remove class depedning on direction	
   			_this[classMethod+"Class"]('closed').removeClass('sliding');
     	});
-       */
+
     };
   
   
@@ -1428,7 +1428,7 @@ Changelog:
 	  
 	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
 	  //to desktop.
-    // Modernizr.touch && _content.swipe(selector);
+    // Modernizr.touchy && _content.swipe(selector);
 		
 		Modernizr.addTest('overflowscrolling', function(){
   		return Modernizr.testAllProps("overflowScrolling");
@@ -1876,7 +1876,8 @@ Changelog:
   $.fn.useiScroll = function(options) {
     options = _.extend({ 
       vScrollbar : false, 
-      onBeforeScrollStart : _onBeforeScrollStart
+      onBeforeScrollStart : _onBeforeScrollStart,
+      bounce : false
     }, options || {});
     
     return this.each(function() {
