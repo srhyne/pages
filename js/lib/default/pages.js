@@ -166,9 +166,6 @@
 
 		if(o.timer) clearTimeout(o.timer);
 
-		// console.log('_this', _this);
-		// console.log('pages', _pages);
-
 		o.timer = setTimeout(function(){
 			publish('opening', _pages);
     }, 1);
@@ -270,15 +267,14 @@
 	    return false;
 	  }
 	  
-    pages.filter(':not(.closed)').updateX();
-    
     if( isSinglePage(true) ){
-      return _open.call( pages.last() );
+        _open.call( pages.last() );
     }
-    
+    else{
+      (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
+    }
 
-    (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
-    return true;
+    pages.filter(':not(.closed)').updateX();
 
 	}
 	
@@ -695,6 +691,7 @@
 		var pageData = $.data(a, ns) || {};
 		return pageData.name === m[3];
 	};
+
 
 	// $.single = $.single || function(a){return function(b){a[0]=b;return a}}($([1]));
 

@@ -1464,16 +1464,16 @@ Changelog:
 	  if(pages.length === 0){
 	    return false;
 	  }
-	  
-    pages.filter(':not(.closed)').updateX();
+	 
     
     if( isSinglePage(true) ){
-      return _open.call( pages.last() );
+        _open.call( pages.last() );
     }
-    
+    else{
+      (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
+    }
 
-    (pages.length >= 2) && _open.call( pages.slice(-2, -1) );
-    return true;
+    pages.filter(':not(.closed)').updateX();
 
 	}
 	
