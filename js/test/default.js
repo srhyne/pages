@@ -1361,9 +1361,6 @@ Changelog:
 
 		if(o.timer) clearTimeout(o.timer);
 
-		// console.log('_this', _this);
-		// console.log('pages', _pages);
-
 		o.timer = setTimeout(function(){
 			publish('opening', _pages);
     }, 1);
@@ -1415,16 +1412,16 @@ Changelog:
 		_opts = $.extend(_opts, customOpts || {}, true);	
 		// add opts data to scope
 	 
-	
-		//testing this
-	  Modernizr.load([
-      {
-      	//load them regardless
-        test : Modernizr.touchy,
-        //sans touch is prety much JUST hotkeys
-        nope : [og + 'pages/js/min/sans_touch.min.js']
-	    }
-	  ]);
+	 //this is DEPRECATED
+		// //testing this
+	 //  Modernizr.load([
+  //     {
+  //     	//load them regardless
+  //       test : Modernizr.touchy,
+  //       //sans touch is pretty much JUST hotkeys
+  //       nope : [og + 'pages/js/min/sans_touch.min.js']
+	 //    }
+	 //  ]);
 	  
 	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
 	  //to desktop.
@@ -1464,8 +1461,7 @@ Changelog:
 	  if(pages.length === 0){
 	    return false;
 	  }
-	 
-    
+	  
     if( isSinglePage(true) ){
         _open.call( pages.last() );
     }
@@ -1890,6 +1886,7 @@ Changelog:
 		var pageData = $.data(a, ns) || {};
 		return pageData.name === m[3];
 	};
+
 
 	// $.single = $.single || function(a){return function(b){a[0]=b;return a}}($([1]));
 

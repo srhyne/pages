@@ -217,16 +217,16 @@
 		_opts = $.extend(_opts, customOpts || {}, true);	
 		// add opts data to scope
 	 
-	
-		//testing this
-	  Modernizr.load([
-      {
-      	//load them regardless
-        test : Modernizr.touchy,
-        //sans touch is prety much JUST hotkeys
-        nope : [og + 'pages/js/min/sans_touch.min.js']
-	    }
-	  ]);
+	 //this is DEPRECATED
+		// //testing this
+	 //  Modernizr.load([
+  //     {
+  //     	//load them regardless
+  //       test : Modernizr.touchy,
+  //       //sans touch is pretty much JUST hotkeys
+  //       nope : [og + 'pages/js/min/sans_touch.min.js']
+	 //    }
+	 //  ]);
 	  
 	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
 	  //to desktop.
