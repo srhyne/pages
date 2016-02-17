@@ -211,7 +211,7 @@
 
 		//set closure vars (See TOP);
 		_window = $(window);
-		selector = "div."+_opts.cls;
+		selector = "div." + _opts.cls;
 		
 		//TODO I don't think you need to re-assign that here. 
 		_opts = $.extend(_opts, customOpts || {}, true);	
@@ -644,6 +644,10 @@
 
   }
 
+  function enableSwipe () {
+    _content.swipe(selector);
+  }
+
 
 	$.fn.slide = function slide(x, css){
 		var styles;
@@ -715,7 +719,8 @@
 		setTitle : setTitle,
 		getLoaded : getLoaded,
 		setLoaded : setLoaded,
-    canUseiScroll: canUseiScroll
+    canUseiScroll: canUseiScroll,
+    enableSwipe : enableSwipe
 	};
 
 	$[ns] = function( method ) {
