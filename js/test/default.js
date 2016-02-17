@@ -1406,7 +1406,7 @@ Changelog:
 
 		//set closure vars (See TOP);
 		_window = $(window);
-		selector = "div." + _opts.cls;
+		selector = "." + _opts.cls;
 		
 		//TODO I don't think you need to re-assign that here. 
 		_opts = $.extend(_opts, customOpts || {}, true);	
