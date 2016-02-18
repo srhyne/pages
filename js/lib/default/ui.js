@@ -22,7 +22,7 @@
     
     //start pages
 		$.pages('init', {
-      time : dom.win.width() <= 320 ? 500 : 700
+      time : dom.win.width() <= 375 ? 500 : 700
 		});
 		
 		//export do
