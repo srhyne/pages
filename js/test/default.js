@@ -1857,9 +1857,17 @@ Changelog:
   $.fn.updateX = function updateX(){
 
     updateX.each = updateX.each || function() {
-    	var _this, pWidth;
+    	var _this, _updateX, pWidth;
       _this = $(this);
-      pWidth = _this.parents(selector).eq(0).width();
+
+      _updateX = _this.data('updateX');
+      if( _updateX ){
+        pWidth = _updateX.call(_this);
+      }
+      else{
+        pWidth = _this.parents(selector).eq(0).width();  
+      }
+
       _this.slide(pWidth);
     };
 
