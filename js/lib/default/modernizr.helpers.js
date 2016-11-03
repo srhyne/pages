@@ -29,6 +29,9 @@
     return M.touch;
   });
 
+  M.addTest('standalone', function(){
+    return window.navigator.standalone;
+  });
 
 
   function hyphenate (str) {
