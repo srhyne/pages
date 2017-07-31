@@ -1,10 +1,10 @@
 (function(M){
 
-  //this is a custom test for of Modernizr.touch test! This is used to 
+  //this is a custom test for of Modernizr.touch test! This is used to
   //remove the touch detection on windows 8 laptops that use both
   //touch & mouse events (the pointer events)
   //see http://www.html5rocks.com/en/mobile/touchandmouse/
-  
+
   M.addTest('windows', function(){
     return (/win/i).test(window.navigator.platform);
   });
@@ -15,14 +15,13 @@
 
   //in Modernzir 3 this is 'touchevents'
   M.addTest('touchy', function() {
-
-    //we should probably remove this, what about windows phones? 
-    if( M.windows ){
+    //we should probably remove this, what about windows phones?
+    if (M.windows) {
       return false;
     }
 
     //if touchevent is present but so is mouseevent, go with mousevent
-    if(M.touch && M.chromeos && ('MouseEvent' in window)  ){
+    if (M.touch && ('MouseEvent' in window)) {
       return false;
     }
 
@@ -35,16 +34,16 @@
 
 
   function hyphenate (str) {
-    
+
     if(str === false){
       return false;
     }
 
-    return str.replace(/([A-Z])/g, function(str,m1){ 
-      return '-' + m1.toLowerCase(); 
+    return str.replace(/([A-Z])/g, function(str,m1){
+      return '-' + m1.toLowerCase();
     }).replace(/^ms-/,'-ms-');
   }
-  
+
 
   //return a list of prefix
   M.prefixedAttrs = function(){
@@ -67,6 +66,6 @@
 
 
     return prefixed.length === 1 ? prefixed[0] : prefixed;
-  }  
+  }
 
 })(Modernizr);
