@@ -21,7 +21,7 @@
     }
 
     //if touchevent is present but so is mouseevent, go with mousevent
-    if (M.touch && ('MouseEvent' in window)) {
+    if (M.touch && M.chromeos && ('MouseEvent' in window)) {
       return false;
     }
 
