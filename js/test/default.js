@@ -1203,27 +1203,27 @@ Changelog:
 })(jQuery, jQuery.fn.animate, jQuery.fn.stop, Modernizr);
 
 ;(function($, Modernizr){
-	
+
 	//option obj, $ window, "div."+ns
 	var _opts, _window, _content, selector, currentPage, useiScroll,
-	
+
 		//public methods object
-		methods, 
-		
+		methods,
+
 		//plugin namespace
 		ns = 'pages';
 
 		//options
 	_opts = {
-		cls : "page", 
-		//animate 
+		cls : "page",
+		//animate
 		css3 : {
 			leaveTransforms : true,
-			useTranslate3d : true, 
+			useTranslate3d : true,
 			leaveTransitions : true
 		},
     twoPageMinWidth : 767, //change to 768 to go 1 page on ipad in portrait
-		time :  1000	
+		time :  1000
 	};
 
 
@@ -1246,15 +1246,15 @@ Changelog:
 	 */
 	function _collapse(pages, time, cb){
 	  var _anim, _selector, pagesToUpdate, isAnimLeft, animLeft;
-	  
+
     _anim = $.extend({}, _opts.css3, {left : 0});
     _selector = ":first, .closed";
 			//took out :animated from filter because it was causing problems inside the profile.
-    pagesToUpdate = pages.not(_selector); 
-    
-		cb = typeof cb === 'function' ? cb : function(){ return false; };	
+    pagesToUpdate = pages.not(_selector);
+
+		cb = typeof cb === 'function' ? cb : function(){ return false; };
 		time = time <= _opts.time ? time : _opts.time;
-		
+
 		if( !pagesToUpdate[0] ){
 			cb();
 			return pages;
@@ -1280,7 +1280,7 @@ Changelog:
 		});
 
 		return pages;
-	
+
 	}
 
 	/**
@@ -1314,7 +1314,7 @@ Changelog:
 		var method, next, width;
 
 		if(dir === 'back'){
-			next = _all().filter("."+ns+":first, .closed").last().parents(selector).eq(0); 
+			next = _all().filter("."+ns+":first, .closed").last().parents(selector).eq(0);
 		}
 		else{
 			next = getNextNotVisible();
@@ -1335,7 +1335,7 @@ Changelog:
 	function back(cb){
 		return open(toOpen('back'), cb);
 	}
-	
+
 	/**
 	 * Experimental! go forward a page (doesn't fire route)
 	 * @param  {Function} cb callback to be called after opening
@@ -1352,18 +1352,18 @@ Changelog:
 	 */
 	function _open2(){
 		var o, _this, _pages;
-		
+
 		o = _open2;
 		_this = o._this;
 
 		if(!_this){
 			return false;
 		}
-	
+
 
 		//don't use children here. We want all not the last one
 		_pages = _this.find(selector);
-    
+
 		if(!_pages[0]){
 			return false;
 		}
@@ -1374,10 +1374,10 @@ Changelog:
 			publish('opening', _pages);
     }, 1);
 
-		o._this = null;					
+		o._this = null;
 		return _pages.removeClass('closed').updateX();
 	}
-	
+
 	/**
 	 * Sets up the open2 callback after collapsing the
 	 * pages that need to close
@@ -1386,9 +1386,9 @@ Changelog:
 	function _open(){
 		var toClose = this.parents(selector).andSelf();
 		_open2._this = this;
-		_collapse(toClose, _opts.time,  _open2); 
+		_collapse(toClose, _opts.time,  _open2);
 	}
-	
+
 	/**
 	 * get all _ops.cls 'pages'
 	 * @return $ Array
@@ -1396,7 +1396,7 @@ Changelog:
   function _all(){
     return _content.find(selector);
   }
-  
+
  	/**
  	 * Bootstrap function that sets up pages..
  	 * sets up caching, modernizr loads, and options
@@ -1416,11 +1416,11 @@ Changelog:
 		//set closure vars (See TOP);
 		_window = $(window);
 		selector = "." + _opts.cls;
-		
-		//TODO I don't think you need to re-assign that here. 
-		_opts = $.extend(_opts, customOpts || {}, true);	
+
+		//TODO I don't think you need to re-assign that here.
+		_opts = $.extend(_opts, customOpts || {}, true);
 		// add opts data to scope
-	 
+
 	 //this is DEPRECATED
 		// //testing this
 	 //  Modernizr.load([
@@ -1431,21 +1431,21 @@ Changelog:
   //       nope : [og + 'pages/js/min/sans_touch.min.js']
 	 //    }
 	 //  ]);
-	  
-	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe 
+
+	  //even though iScroll is in touch/sans_touch interfaces, don't add swipe
 	  //to desktop.
     // Modernizr.touchy && _content.swipe(selector);
-		
+
 		Modernizr.addTest('overflowscrolling', function(){
   		return Modernizr.testAllProps("overflowScrolling");
-		});	
+		});
 
 		//it's loaded, we are mobile and we have no overflow scrolling system
 		useiScroll = canUseiScroll();
 
 		return $[ns];
 	}
-	
+
 	/**
 	 * calculation function for checking whether or not
 	 * the page should be in a single or two page layout
@@ -1455,22 +1455,22 @@ Changelog:
 		var self = isSinglePage;
 		self._width = (!self._width || repaint) ? _window.width() : self._width;
 
-    return (self._width <= _opts.twoPageMinWidth ? true : false);    
+    return (self._width <= _opts.twoPageMinWidth ? true : false);
   }
-  
+
   /**
    * restyles the pages when a change to the viewport is made
    * @return mixed bool or $ array
    */
 	function repaint(){
     var pages;
-    
+
 	  pages = _all();
-	  
+
 	  if(pages.length === 0){
 	    return false;
 	  }
-	  
+
     if( isSinglePage(true) ){
         _open.call( pages.last() );
     }
@@ -1481,15 +1481,15 @@ Changelog:
     pages.filter(':not(.closed)').updateX();
 
 	}
-	
+
 	/**
 	 * get a timestamp for unique id's
 	 * @return int timestamp
 	 */
-	function t() { 
-		return new Date().getTime(); 
+	function t() {
+		return new Date().getTime();
 	}
-	
+
 	function publish (e, data) {
 		$.publish(e + '.' + ns, [data]);
 	}
@@ -1505,55 +1505,58 @@ Changelog:
 	 *                         This is sort of a bad name for this param
 	 *                         because it's usually the fragment of the
 	 *                         route the page belongs to
-	 *                         
+	 *
 	 * @param {Function} callback  executed after page animation
 	 * @param {String}   extraClasses list of extra classes to add to page
 	 * @param {String}   title would really be best passed in an Object
 	 *                         with name but the use of title is new
 	 *                         this is a bit of meta-data that is used
-	 *                         to show a menu title in the UI 
+	 *                         to show a menu title in the UI
 	 */
 	function add(el, name, callback, extraClasses, title){
+    console.log('adding page', arguments);
 		var _el, w, pages, pageCount, lastPage,
-		    container, singlePage, offset, _anim, 
+		    container, singlePage, offset, _anim,
 		    pageContent, _page;
-		
+
 		extraClasses = extraClasses || '';
 
 		//make a jquery collection even if it is already
-		_el = $(el); 
+		_el = $(el);
 		//get all pages
-		pages = _all(); 
+		pages = _all();
 		pageCount = pages.size();
 		//close pages before adding
 		if(pageCount !== 0){
 			_collapse(pages);
 		}
-		
+
 		//get last div.page if their is one
 		lastPage = pages.last();
 		//if there is a current div.page this will be our container NOT our scope this object
 		container = lastPage[0] ? lastPage : this;
-		
+
 		//get width of container //cache this?
 		singlePage = isSinglePage();
-		offset = (pageCount === 0 || singlePage || extraClasses.indexOf('expanded') !== -1) 
-							? 0 
+		offset = (pageCount === 0 || singlePage || extraClasses.indexOf('expanded') !== -1)
+							? 0
 							: lastPage.width();
-										
+
 		// offset = Math.round(offset);
-		
+
 		_anim = {
 			left : offset
 		};
 
-				
+
 		_anim = $.extend({}, _opts.css3, _anim);
-		
-    pageContent = $('<div/>', { 
+
+    pageContent = $('<div/>', {
 		    'class' : 'page-content ' + (!useiScroll ? 'scroller' : ''),
 		    html : _el
 		});
+
+    console.log('pageContent', pageContent);
 
     _page = $("<div/>",{
       id : ns + "-" + t(),
@@ -1562,51 +1565,54 @@ Changelog:
 		});
 
 		$.data(_page[0], {
-			pages : { 
-				offset : singlePage ? 0 : offset,  
+			pages : {
+				offset : singlePage ? 0 : offset,
 				name : name === undefined ? (ns + "_" + pageCount) : name,
 				title : title || ''
 			}
 		});
 
 		_page.slide(this.width(), {
-		  right : 0, 
+		  right : 0,
 			left : 0,
 			"z-index" : 2
 		})
 		.appendTo(container)
-		.animate(_anim, _opts.time, "easeOutCirc", function(){ 
+		.animate(_anim, _opts.time, "easeOutCirc", function(){
 			var scrollers, scrollSettings, _iScroll;
 
 		  scrollers = _el.find('.scroller');
 		  _iScroll = iScroll;
 
 		  if(useiScroll){
+        console.log('setting up scroller')
 		  	if(scrollers[0]){
+          console.log('- on', scrollers[0])
           scrollers.useiScroll();
 		  	}
 		  	else if( extraClasses.indexOf('no-scrolling') === -1 ){
+          console.log('on pageContent')
           pageContent.useiScroll();
 		  	}
 		  }
 		  publish('opened', _page);
       return typeof callback === 'function' && callback.call(_el, _page);
 		});
-		
+
 		publish('opening', _page);
     //this could faster instead of using selector..
 		return $[ns]; //singlePage ? $[ns]('expand', ':last') : $[ns];
 	}
 
-	
-	
+
+
   function _onBeforeScrollStart(e){
   	var _target = $(e.target);
-  	
+
   	if(_target.is(':input, [draggable], option') || _target.closest('[contenteditable]').size() > 0){
   		return false;
   	}
-  	
+
 		//this is not an input so let's prevent default and return true
 		e.preventDefault();
   	return true;
@@ -1622,28 +1628,28 @@ Changelog:
 			return $[ns];
 		}
 		_pages = _all();
-		_page = typeof s === 'number' 
-				? _pages.eq(s) 
+		_page = typeof s === 'number'
+				? _pages.eq(s)
 					: s instanceof jQuery ? s : _pages.filter(s);
-					
-		//call with page as context			
-		typeof callback === 'function' && _page && callback.call(_page);			
-		return $[ns];			
+
+		//call with page as context
+		typeof callback === 'function' && _page && callback.call(_page);
+		return $[ns];
 	}
-	
-	
+
+
 	function drop(s, callback){
 		return find(s,function(){
 			this.remove();
 			typeof callback === 'function' && callback();
 		});
 	}
-	
+
 	//TODO you need a cb here!
 	function open(s){
 		return find(s, _open);
 	}
-	
+
 	/**
 	 * get the name of a page..
 	 * @param div element page NOT jquery wrapped.
@@ -1693,7 +1699,7 @@ Changelog:
    * set data key & value to the page
    * @param {Mixed} page  page selector
    * @param {string} key the ns for the pages dom data
-   * @param {mixed} value the value for the data.key = 
+   * @param {mixed} value the value for the data.key =
    */
   function _setData (page, key, value) {
   	find(page, function(){
@@ -1742,7 +1748,7 @@ Changelog:
 
   /**
    * set whether or not a page if fully loaded
-   * with the correct module data.. 
+   * with the correct module data..
    * @param {[type]} page [description]
    * @param {[type]} flag [description]
    */
@@ -1777,7 +1783,7 @@ Changelog:
 		_all().each( function(i){
 			_names.push( getName(this, i) );
 		});
-		
+
 		return _names;
 	}
 
@@ -1789,14 +1795,14 @@ Changelog:
 		var pages, parent, child;
 
 		pages = _all();
-		
+
 		if(pages.length < 2){
 			return $[ns];
 		}
 
 		parent = pages.eq(0);
 		//first.children(selector).detach();
-		child =  pages.eq(1).detach(); 
+		child =  pages.eq(1).detach();
 		parent.replaceWith(child);
 
 		return $[ns];
@@ -1805,7 +1811,7 @@ Changelog:
 	function each (cb) {
 		_all().each(cb);
 	}
-  
+
   function canUseiScroll() {
     return iScroll && (Modernizr.touchy && !Modernizr.overflowscrolling);
   }
@@ -1819,7 +1825,7 @@ Changelog:
   	var agent, translate;
 
 		agent = navigator.userAgent.toLowerCase();
-		
+
 		//no transitions then just use left/right
 		if(!Modernizr.csstransitions || !Modernizr.csstransforms){
 			return function( x ){
@@ -1858,7 +1864,7 @@ Changelog:
 
 		slide.style = slide.style || getTransformStyle();
 		styles = $.extend(css || {}, slide.style(x) )
-		
+
 		return this.css(styles);
 	}
 
@@ -1874,14 +1880,14 @@ Changelog:
         pWidth = _updateX.call(_this);
       }
       else{
-        pWidth = _this.parents(selector).eq(0).width();  
+        pWidth = _this.parents(selector).eq(0).width();
       }
 
       _this.slide(pWidth);
     };
 
     this.each(updateX.each);
-    
+
     return this;
   };
 
@@ -1889,14 +1895,14 @@ Changelog:
     console.log(this);
     return this;
   };
-  
+
   $.fn.useiScroll = function(options) {
-    options = _.extend({ 
-      vScrollbar : false, 
+    options = _.extend({
+      vScrollbar : false,
       onBeforeScrollStart : _onBeforeScrollStart,
       bounce : false
     }, options || {});
-    
+
     return this.each(function() {
       iScroll[ 'scroller-' + t() ] = new iScroll(this, options);
     });
@@ -1912,21 +1918,21 @@ Changelog:
 	// $.single = $.single || function(a){return function(b){a[0]=b;return a}}($([1]));
 
 	methods = {
-		init : init, 
+		init : init,
 		repaint : repaint,
-		add : add, 
-		drop : drop, 
-		find : find, 
+		add : add,
+		drop : drop,
+		find : find,
 		each : each,
 		open : open,
 		toOpen : toOpen,
-		back : back, 
-		forward : forward, 
-		names : names, 
+		back : back,
+		forward : forward,
+		names : names,
 		name : getName,
-		has : has, 
-		isSinglePage : isSinglePage, 
-		promote : promote, 
+		has : has,
+		isSinglePage : isSinglePage,
+		promote : promote,
 		getTitle : getTitle,
 		setTitle : setTitle,
 		getLoaded : getLoaded,
@@ -1939,11 +1945,11 @@ Changelog:
 		_content = _content === undefined ? $('#content') : _content;
 	    if(methods[method]){
 	      return methods[method].apply( _content, Array.prototype.slice.call( arguments, 1 ));
-	    } 
+	    }
 		return $.error( 'Method ' +  method + ' does not exist on jQuery.' + ns );
 	};
-	
-	
+
+
 })(window.jQuery, window.Modernizr);
 
 !function(GLOBAL){
