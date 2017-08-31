@@ -1514,7 +1514,6 @@ Changelog:
 	 *                         to show a menu title in the UI
 	 */
 	function add(el, name, callback, extraClasses, title){
-    console.log('adding page', arguments);
 		var _el, w, pages, pageCount, lastPage,
 		    container, singlePage, offset, _anim,
 		    pageContent, _page;
@@ -1556,8 +1555,6 @@ Changelog:
 		    html : _el
 		});
 
-    console.log('pageContent', pageContent);
-
     _page = $("<div/>",{
       id : ns + "-" + t(),
 			'class' : _opts.cls + ' ' + extraClasses, //dont take off index class!
@@ -1585,13 +1582,10 @@ Changelog:
 		  _iScroll = iScroll;
 
 		  if(useiScroll){
-        console.log('setting up scroller')
 		  	if(scrollers[0]){
-          console.log('- on', scrollers[0])
           scrollers.useiScroll();
 		  	}
 		  	else if( extraClasses.indexOf('no-scrolling') === -1 ){
-          console.log('on pageContent')
           pageContent.useiScroll();
 		  	}
 		  }
